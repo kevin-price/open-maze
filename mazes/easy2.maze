@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <maze>
   <size><X_GRIDS>20</X_GRIDS><Y_GRIDS>15</Y_GRIDS><DefaultSpacing>25</DefaultSpacing></size>
   <obstacle><type>permeable</type><orient>horizontal</orient><x>1</x><y>11</y></obstacle>
@@ -42,4 +42,11 @@
   <obstacle><type>wall</type><orient>horizontal</orient><x>9</x><y>0</y></obstacle>
   <obstacle><type>wall</type><orient>vertical</orient><x>12</x><y>3</y></obstacle>
   <obstacle><type>wall</type><orient>horizontal</orient><x>0</x><y>12</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>0</x><y>6</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>20</x><y>4</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>20</x><y>0</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>19</x><y>0</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>12</x><y>0</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>12</x><y>14</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>15</x><y>0</y></obstacle>
 </maze>

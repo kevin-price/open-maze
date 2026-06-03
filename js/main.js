@@ -1,0 +1,59 @@
+/**
+ * main.js
+ * Entry point — wires up the page once the DOM is ready.
+ */
+
+import { state }               from './state.js';
+import { drawGrid }            from './renderer.js';
+import { loadMazeFile }        from './mazeIO.js';
+import { openTutorial }        from './tutorial.js';
+import {
+  wireNavButtons,
+  handleKeyDown,
+  handleCanvasClick,
+  handleTouchStart,
+  handleTouchEnd,
+  showMazeSelectUI,
+} from './ui.js';
+
+// ─── Initialisation ───────────────────────────────────────────────────────────
+
+function init() {
+  // Draw the empty grid immediately
+  drawGrid();
+
+  // Wire persistent nav buttons
+  wireNavButtons();
+
+  // Keyboard input
+  document.addEventListener('keydown', handleKeyDown);
+
+  // Canvas: mouse clicks
+  const canvas = document.getElementById('canvas');
+  canvas.addEventListener('click', handleCanvasClick);
+
+  // Canvas: touch (swipe to choose direction, tap to stop)
+  canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+  canvas.addEventListener('touchend',   handleTouchEnd,   { passive: false });
+
+  // Read URL parameters
+  const params   = new URLSearchParams(window.location.hash.replace(/^#&?/, '?').slice(1));
+  const tutorial = params.get('tutorial');
+  const maze     = params.get('maze');
+
+  if (tutorial === 'true') {
+    openTutorial();
+  } else if (maze) {
+    loadMazeFile(maze);
+  } else {
+    // Default: load Easy Maze 1 and show the maze-select menu
+    loadMazeFile('easy1.maze').then(() => showMazeSelectUI());
+  }
+}
+
+// Run after the DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

@@ -1,0 +1,399 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   style.css — Open Maze v2
+   Design tokens → component styles → layout → responsive
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+:root {
+  /* Nav bar */
+  --nav-bg:          #1e3a5f;
+  --nav-text:        #e8f4fd;
+  --nav-highlight:   #f59e0b;   /* amber — Tutorial button */
+
+  /* Action bar */
+  --action-bg:       #dbeafe;
+  --action-border:   #93c5fd;
+  --action-text:     #1e293b;
+
+  /* Buttons */
+  --btn-default-bg:   #e2e8f0;
+  --btn-default-text: #1e293b;
+  --btn-default-border: #94a3b8;
+  --btn-hover-bg:     #cbd5e1;
+
+  --btn-primary-bg:   #2563eb;
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: #1d4ed8;
+
+  --btn-danger-bg:    #dc2626;
+  --btn-danger-text:  #ffffff;
+  --btn-danger-hover: #b91c1c;
+
+  --btn-subtle-bg:    transparent;
+  --btn-subtle-text:  #475569;
+  --btn-subtle-border: #94a3b8;
+
+  --btn-active-bg:    #1d4ed8;
+  --btn-active-text:  #ffffff;
+
+  /* Canvas area */
+  --canvas-bg:        #ffffff;
+  --canvas-shadow:    0 2px 12px rgba(0,0,0,.12);
+
+  /* Body */
+  --body-bg:          #f1f5f9;
+  --text:             #1e293b;
+
+  /* Tutorial panel */
+  --tutorial-bg:      #fff7ed;
+  --tutorial-border:  #fed7aa;
+  --tutorial-action-bg: #eff6ff;
+  --tutorial-action-border: #93c5fd;
+
+  /* Typography */
+  --font-ui:   system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  /* Spacing */
+  --header-h: 90px;   /* title row (52 px) + nav row (38 px) */
+  --action-h: 44px;
+}
+
+/* ── Reset / base ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: var(--font-ui);
+  background: var(--body-bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+a { color: inherit; }
+a:hover { text-decoration: underline; }
+
+/* ── Site header ────────────────────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;   /* title row on top, nav row below */
+  background: var(--nav-bg);
+  color: var(--nav-text);
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+/* Title row — always 52 px tall */
+.site-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+
+.title-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.site-title h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+
+/* ── Nav buttons ────────────────────────────────────────────────────────────── */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px 10px;     /* nav row: 0 top + 10 px bottom breathing room */
+  flex-wrap: nowrap;         /* buttons always stay on one row */
+}
+
+.nav-btn {
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 6px;
+  background: rgba(255,255,255,.08);
+  color: var(--nav-text);
+  font: inherit;
+  font-size: .875rem;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+  white-space: nowrap;
+}
+
+.nav-btn:hover { background: rgba(255,255,255,.18); }
+.nav-btn:active { background: rgba(255,255,255,.28); }
+
+.nav-btn--highlight {
+  background: var(--nav-highlight);
+  color: #1e293b;
+  border-color: transparent;
+  font-weight: 600;
+}
+.nav-btn--highlight:hover { background: #d97706; }
+
+.nav-btn--icon {
+  padding: 5px 10px;
+  font-size: 1rem;
+}
+
+/* ── Action bar ─────────────────────────────────────────────────────────────── */
+.action-bar-wrap {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 90;
+  background: var(--action-bg);
+  border-bottom: 1px solid var(--action-border);
+}
+
+.action-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 7px 16px;
+  min-height: var(--action-h);
+}
+
+.action-sep {
+  display: inline-block;
+  width: 1px;
+  height: 22px;
+  background: var(--action-border);
+  margin: 0 2px;
+}
+
+.action-label {
+  font-size: .875rem;
+  color: var(--action-text);
+  white-space: nowrap;
+}
+
+.no-solution-notice {
+  font-size: .875rem;
+  font-weight: 600;
+  color: #92400e;           /* amber-brown — readable on light bg */
+  background: #fef3c7;      /* amber-50 */
+  border: 1px solid #fcd34d;
+  border-radius: 6px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  animation: notice-fade 4s ease forwards;
+}
+
+@keyframes notice-fade {
+  0%   { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.action-input {
+  font: inherit;
+  font-size: .875rem;
+  padding: 4px 8px;
+  border: 1px solid var(--btn-default-border);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--text);
+  width: 80px;
+}
+
+.action-select {
+  font: inherit;
+  font-size: .875rem;
+  padding: 4px 8px;
+  border: 1px solid var(--btn-default-border);
+  border-radius: 5px;
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* ── Key-hint strip ─────────────────────────────────────────────────────────── */
+.key-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 16px 6px;
+  font-size: .75rem;
+}
+
+.key-hints:empty { display: none; }
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255,255,255,.7);
+  border: 1px solid #94a3b8;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: #475569;
+  box-shadow: 0 1px 0 #94a3b8;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────────── */
+.btn {
+  appearance: none;
+  border-radius: 6px;
+  font: inherit;
+  font-size: .875rem;
+  padding: 5px 13px;
+  cursor: pointer;
+  transition: background .12s, border-color .12s, transform .08s;
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn--default {
+  background: var(--btn-default-bg);
+  color: var(--btn-default-text);
+  border-color: var(--btn-default-border);
+}
+.btn--default:hover { background: var(--btn-hover-bg); }
+
+.btn--primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+.btn--primary:hover { background: var(--btn-primary-hover); }
+
+.btn--danger {
+  background: var(--btn-danger-bg);
+  color: var(--btn-danger-text);
+}
+.btn--danger:hover { background: var(--btn-danger-hover); }
+
+.btn--subtle {
+  background: var(--btn-subtle-bg);
+  color: var(--btn-subtle-text);
+  border-color: var(--btn-subtle-border);
+}
+.btn--subtle:hover { background: var(--btn-hover-bg); }
+
+.btn--active {
+  background: var(--btn-active-bg);
+  color: var(--btn-active-text);
+  border-color: transparent;
+}
+
+/* ── Main content layout ────────────────────────────────────────────────────── */
+.maze-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 16px;
+  min-height: 0;
+}
+
+.canvas-scroll {
+  overflow: auto;           /* scroll when maze is larger than viewport */
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
+#canvas {
+  display: block;
+  background: var(--canvas-bg);
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  box-shadow: var(--canvas-shadow);
+  cursor: crosshair;
+  touch-action: none;       /* we handle touch ourselves for swipe detection */
+}
+
+/* ── Tutorial panel ─────────────────────────────────────────────────────────── */
+.tutorial-panel {
+  flex: 0 1 400px;
+  min-width: 260px;
+  background: var(--tutorial-bg);
+  border: 1px solid var(--tutorial-border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  font-size: .9rem;
+  line-height: 1.55;
+  max-height: calc(100vh - var(--header-h) - var(--action-h) - 48px);
+  overflow-y: auto;
+}
+
+.tutorial-panel h2 {
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  color: #1e3a5f;
+}
+
+.tutorial-panel p,
+.tutorial-panel ul { margin-bottom: 10px; }
+
+.tutorial-panel ul { padding-left: 18px; }
+
+.tutorial-panel strong { color: #1e293b; }
+
+.tutorial-action {
+  background: var(--tutorial-action-bg);
+  border: 1px solid var(--tutorial-action-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+
+.tutorial-action h3 {
+  font-size: .85rem;
+  margin-bottom: 5px;
+  color: #1e40af;
+}
+
+.tutorial-skip {
+  display: block;
+  margin-bottom: 12px;
+  font-size: .8rem;
+  padding: 4px 10px;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────────── */
+.site-footer {
+  padding: 10px 16px 14px;
+  font-size: .8rem;
+  color: #64748b;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 8px;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .site-title h1 { font-size: 1rem; }
+  .nav-btn { padding: 5px 8px; font-size: .8rem; }
+
+  .maze-wrap {
+    flex-direction: column;
+    padding: 8px;
+    gap: 12px;
+  }
+
+  .tutorial-panel {
+    flex: none;
+    width: 100%;
+    max-height: 280px;
+  }
+
+  .action-bar { gap: 4px; padding: 6px 10px; }
+  .btn { font-size: .8rem; padding: 4px 10px; }
+}
+
+/* ── Focus ring (accessibility) ─────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}

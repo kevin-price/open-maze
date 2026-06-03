@@ -1,44 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset=utf-8 />
-    <title id="title">Open Maze       </title>
-    <link type="text/css" rel="stylesheet" href="Files/style.css" />
-    <link rel="shortcut icon" href="Files/favicon.ico">
-
-    <script type="text/javascript" src="Files/FileSaver.js"></script>
-
-    <script type="text/javascript" src="Files/Maze_scripts.js">
-
-</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Maze</title>
+  <link rel="icon" href="assets/favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="setPage();">    <!--onunload="window_onunload();"-->   
-    <h3 id="title">Open Maze</h3>
+<body>
 
-    <div id="action"></div> <br/><br/>
-
-    <div id="rotate">
-        <!--<input type="submit" value="Zoom In" onclick="zoomIn()"/>
-        <input type="submit" value="Zoom Out" onclick="zoomOut()"/>-->
-        <!--<input type="submit" value="Refresh" onclick="drawGrid()"/>-->
-        <!--<input type="submit" value="Main Menu" style='font-weight:bold;' onclick="document.getElementById('action').innerHTML = startingHTML;"/>-->
-		<input type="submit" value="Zoom" onclick="zoomPrompt()"/>
-        <input type="submit" value="Maze Creator" onclick='createMaze()'/>
-		<input type='submit' value='Solver' onclick='solverMode()'/>
-		<!--<input type="submit" value="Solutions" onclick="solutions()"/>-->
-		<input type='submit' value='Beginning/End' onmousedown='displayEnds()' onmouseup='drawGrid(); drawCurrentPosition();' />
-		<input type='submit' value='Other Mazes' style='font-weight:bold;' onclick='loadSample()'/>
-		<!--<input type='submit' value='How to Play' onclick='openInstructions()' style='font-weight:bold;'/> -->
-		<input type='submit' value='Tutorial' onclick='openTutorial()' style='font-weight:bold;'/>
+  <!-- ── Top navigation bar ─────────────────────────────────────── -->
+  <header class="site-header">
+    <div class="site-title">
+      <span class="title-icon" aria-hidden="true">⬡</span>
+      <h1>Open Maze</h1>
     </div>
-    
-	<table style="margin-bottom: 5px;">
-	<tr>
-		<td style="vertical-align: baseline;"><canvas id="canvas" onclick="clickHandler(event);"></canvas><td>
-		<td id="tutorial"><td>
-	</tr>
-	</table>
-	<a href="https://kevindprice.github.io" style="font-family:Garamond; padding-left:2em; font-size:80%;">My Homepage</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <button id="nav-tutorial" class="nav-btn nav-btn--highlight">Tutorial</button>
+      <button id="nav-mazes"    class="nav-btn">Other Mazes</button>
+      <button id="nav-creator"  class="nav-btn">Maze Creator</button>
+      <button id="nav-ends"     class="nav-btn nav-btn--icon" title="Highlight start &amp; end markers">⊙</button>
+      <button id="nav-zoom"     class="nav-btn nav-btn--icon" title="Zoom in / out">⊕</button>
+    </nav>
+  </header>
 
+  <!-- ── Context action bar ─────────────────────────────────────── -->
+  <div class="action-bar-wrap" role="toolbar" aria-label="Game controls">
+    <div id="action-bar" class="action-bar"></div>
+    <div id="key-hints"  class="key-hints"  aria-label="Keyboard shortcuts"></div>
+  </div>
+
+  <!-- ── Main content: canvas + optional tutorial panel ────────── -->
+  <main class="maze-wrap">
+    <div class="canvas-scroll">
+      <canvas id="canvas" tabindex="0" aria-label="Maze canvas"></canvas>
+    </div>
+    <aside id="tutorial-panel" class="tutorial-panel" hidden aria-label="Tutorial"></aside>
+  </main>
+
+  <!-- ── Footer ─────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <a href="https://kevindprice.github.io" target="_blank" rel="noopener">
+      Kevin Price's Homepage
+    </a>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
