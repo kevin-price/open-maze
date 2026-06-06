@@ -7,11 +7,13 @@ import { state }               from './state.js';
 import { drawGrid }            from './renderer.js';
 import { loadMazeFile }        from './mazeIO.js';
 import { openTutorial }        from './tutorial.js';
+import { initScrollbars }      from './scrollbars.js';
 import {
   wireNavButtons,
   handleKeyDown,
   handleCanvasClick,
   handleTouchStart,
+  handleTouchMove,
   handleTouchEnd,
   showMazeSelectUI,
 } from './ui.js';
@@ -25,6 +27,9 @@ function init() {
   // Wire persistent nav buttons
   wireNavButtons();
 
+  // Custom scrollbars (touch-friendly, since canvas consumes all touch events)
+  initScrollbars();
+
   // Keyboard input
   document.addEventListener('keydown', handleKeyDown);
 
@@ -32,8 +37,9 @@ function init() {
   const canvas = document.getElementById('canvas');
   canvas.addEventListener('click', handleCanvasClick);
 
-  // Canvas: touch (swipe to choose direction, tap to stop)
+  // Canvas: touch (swipe to choose direction, tap to stop, pinch to zoom)
   canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+  canvas.addEventListener('touchmove',  handleTouchMove,  { passive: false });
   canvas.addEventListener('touchend',   handleTouchEnd,   { passive: false });
 
   // Read URL parameters

@@ -62,8 +62,14 @@
 /* ── Reset / base ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body {
+html {
   height: 100%;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   font-family: var(--font-ui);
   background: var(--body-bg);
   color: var(--text);
@@ -295,13 +301,137 @@ kbd {
   align-items: flex-start;
   gap: 20px;
   padding: 16px;
-  min-height: 0;
+  flex: 1;          /* fill whatever space the header + action bar leave */
+  min-height: 0;    /* allow flex child to shrink below content size */
+  overflow: hidden; /* clip; canvas-scroll handles its own scrolling */
+}
+
+/* ── Canvas area grid ───────────────────────────────────────────────────────── */
+/* Grid wrapper: canvas | v-buttons / h-buttons | corner */
+.canvas-area {
+  display: grid;
+  grid-template-columns: 1fr 48px;
+  grid-template-rows: 1fr 48px;
+  flex-shrink: 0;
+  /* Fill the maze-wrap's available height exactly — no hardcoded calc needed */
+  max-width: calc(100vw - 32px);
+  height: 100%;
+  max-height: 100%;
 }
 
 .canvas-scroll {
-  overflow: auto;           /* scroll when maze is larger than viewport */
-  max-width: 100%;
+  grid-column: 1;
+  grid-row: 1;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ── Combined arrow-button + scrollbar controls ─────────────────────────────── */
+:root {
+  --sb-track:       #c8d6e8;
+  --sb-thumb:       #1e3a5f;
+  --sb-thumb-hover: #2563eb;
+}
+
+.scroll-col {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 6px;
+}
+
+.scroll-row {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  gap: 4px;
+  padding-top: 6px;
+}
+
+.scroll-corner {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Arrow buttons — fixed square size */
+.scroll-btn {
+  width: 48px;
+  height: 48px;
   flex-shrink: 0;
+  appearance: none;
+  border: none;
+  border-radius: 8px;
+  background: var(--nav-bg);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .12s, transform .08s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.scroll-btn:hover  { background: #2a4f7a; }
+.scroll-btn:active { background: #2563eb; transform: scale(.94); }
+
+/* Scrollbar tracks — flex: 1 so they fill the space between buttons */
+.scroll-track {
+  position: relative;
+  background: var(--sb-track);
+  border-radius: 10px;
+  border: 2px solid #94a3b8;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.scroll-track--v {
+  flex: 1;          /* fills height between ▲ and ▼ */
+  min-height: 20px;
+}
+
+.scroll-track--h {
+  flex: 1;          /* fills width between ◀ and ▶ */
+  min-width: 20px;
+}
+
+.scroll-thumb {
+  position: absolute;
+  background: var(--sb-thumb);
+  border-radius: 8px;
+  transition: background .15s;
+  min-height: 32px;
+  min-width:  32px;
+  touch-action: none;
+}
+
+.scroll-thumb:hover,
+.scroll-thumb:active { background: var(--sb-thumb-hover); }
+
+/* Vertical thumb spans track width */
+.scroll-track--v .scroll-thumb {
+  left: 3px;
+  right: 3px;
+  top: 0;
+}
+
+/* Horizontal thumb spans track height */
+.scroll-track--h .scroll-thumb {
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+}
+
+/* Hide a control group when scrolling isn't needed on that axis */
+.scroll-col[data-hidden="true"],
+.scroll-row[data-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 #canvas {
@@ -380,6 +510,13 @@ kbd {
     flex-direction: column;
     padding: 8px;
     gap: 12px;
+  }
+
+  .canvas-area {
+    max-width: calc(100vw - 16px);
+    width: 100%;
+    height: auto;
+    max-height: 100%;   /* constrained by maze-wrap's flex height, not a hardcoded calc */
   }
 
   .tutorial-panel {

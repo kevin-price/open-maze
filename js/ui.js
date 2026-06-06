@@ -525,17 +525,49 @@ export function handleKeyDown(e) {
   if (action) dispatchAction(action);
 }
 
-// ─── Touch / swipe handler ────────────────────────────────────────────────────
+// ─── Touch / swipe + pinch-to-zoom handler ───────────────────────────────────
 
-let _touchStart = null;
+let _touchStart = null;   // single-finger swipe origin
+let _pinchStart = null;   // { dist, interval } captured when 2nd finger lands
+
+function _pinchDist(e) {
+  const a = e.touches[0], b = e.touches[1];
+  return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+}
 
 /**
  * Handles touchstart on the canvas. Call from main.js.
  * @param {TouchEvent} e
  */
 export function handleTouchStart(e) {
+  if (e.touches.length >= 2) {
+    // Second finger down — start a pinch, cancel any pending swipe
+    _touchStart = null;
+    _pinchStart = { dist: _pinchDist(e), interval: state.interval };
+    e.preventDefault();
+    return;
+  }
   const t = e.changedTouches[0];
   _touchStart = { x: t.clientX, y: t.clientY };
+}
+
+/**
+ * Handles touchmove on the canvas for pinch-to-zoom. Call from main.js.
+ * @param {TouchEvent} e
+ */
+export function handleTouchMove(e) {
+  if (!_pinchStart || e.touches.length < 2) return;
+  e.preventDefault();
+
+  const scale       = _pinchDist(e) / _pinchStart.dist;
+  const newInterval = Math.round(_pinchStart.interval * scale);
+  const clamped     = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, newInterval));
+
+  if (clamped !== state.interval) {
+    state.interval = clamped;
+    drawGrid();
+    drawCurrentPosition();
+  }
 }
 
 /**
@@ -543,6 +575,15 @@ export function handleTouchStart(e) {
  * @param {TouchEvent} e
  */
 export function handleTouchEnd(e) {
+  // Pinch ending — wait until both fingers are up before resetting
+  if (_pinchStart) {
+    if (e.touches.length < 2) {
+      _pinchStart = null;
+      _touchStart = null; // prevent a ghost swipe after pinch
+    }
+    return;
+  }
+
   if (!_touchStart) return;
   const t  = e.changedTouches[0];
   const dx = t.clientX - _touchStart.x;

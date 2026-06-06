@@ -32,8 +32,25 @@
 
   <!-- ── Main content: canvas + optional tutorial panel ────────── -->
   <main class="maze-wrap">
-    <div class="canvas-scroll">
-      <canvas id="canvas" tabindex="0" aria-label="Maze canvas"></canvas>
+    <div class="canvas-area">
+      <div class="canvas-scroll" id="canvas-scroll">
+        <canvas id="canvas" tabindex="0" aria-label="Maze canvas"></canvas>
+      </div>
+      <div class="scroll-col" id="scroll-col" aria-hidden="true">
+        <button class="scroll-btn" id="scroll-up"   aria-label="Scroll up">▲</button>
+        <div class="scroll-track scroll-track--v" id="scroll-track-v">
+          <div class="scroll-thumb" id="scroll-thumb-v"></div>
+        </div>
+        <button class="scroll-btn" id="scroll-down" aria-label="Scroll down">▼</button>
+      </div>
+      <div class="scroll-row" id="scroll-row" aria-hidden="true">
+        <button class="scroll-btn" id="scroll-left"  aria-label="Scroll left">◀</button>
+        <div class="scroll-track scroll-track--h" id="scroll-track-h">
+          <div class="scroll-thumb" id="scroll-thumb-h"></div>
+        </div>
+        <button class="scroll-btn" id="scroll-right" aria-label="Scroll right">▶</button>
+      </div>
+      <div class="scroll-corner" aria-hidden="true"></div>
     </div>
     <aside id="tutorial-panel" class="tutorial-panel" hidden aria-label="Tutorial"></aside>
   </main>
