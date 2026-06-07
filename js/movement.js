@@ -181,6 +181,34 @@ export function pushArrowKeyOptions(directions) {
   state.turns = turns;
 }
 
+// ─── Auto-scroll ──────────────────────────────────────────────────────────────
+
+/**
+ * Scrolls #canvas-scroll so the player stays comfortably in view.
+ * Called every animation frame and after zoom changes.
+ */
+export function scrollToPlayer() {
+  const scroll = document.getElementById('canvas-scroll');
+  if (!scroll) return;
+
+  const iv = state.interval;
+  const px = state.spot[0] * iv + iv / 2 + BORDER; // player canvas-pixel X
+  const py = state.spot[1] * iv + iv / 2 + BORDER; // player canvas-pixel Y
+
+  // Keep the player at least MARGIN px away from the visible edge
+  const MARGIN = iv * 4;
+
+  const visL = scroll.scrollLeft;
+  const visT = scroll.scrollTop;
+  const visR = visL + scroll.clientWidth;
+  const visB = visT + scroll.clientHeight;
+
+  if (px < visL + MARGIN) scroll.scrollLeft = px - MARGIN;
+  if (px > visR - MARGIN) scroll.scrollLeft = px - scroll.clientWidth + MARGIN;
+  if (py < visT + MARGIN) scroll.scrollTop  = py - MARGIN;
+  if (py > visB - MARGIN) scroll.scrollTop  = py - scroll.clientHeight + MARGIN;
+}
+
 // ─── Animation loop ───────────────────────────────────────────────────────────
 
 /**
@@ -233,6 +261,8 @@ export function move() {
       Math.round(state.spot[1] * state.interval + state.interval / 2) + BORDER,
     );
     ctx.stroke();
+
+    scrollToPlayer();
 
     distRemaining -= gridMoved;
     if (distRemaining <= 0) {

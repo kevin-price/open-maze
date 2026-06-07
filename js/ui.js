@@ -14,7 +14,7 @@ import { generateObstacleGrid, applyGridSize, eraseMaze } from './creator.js';
 import { mapMaze }              from './solver.js';
 import { autoSolve }            from './solver.js';
 import {
-  resumeMaze, startMaze, stopMaze, stopHandler, checkObstacles,
+  resumeMaze, startMaze, stopMaze, stopHandler, checkObstacles, scrollToPlayer,
 } from './movement.js';
 import {
   applyTurnRight, applyTurnLeft, applyTurnBackward, applyMoveForward, backTrack,
@@ -205,6 +205,7 @@ const MAZE_CATALOG = {
   easy: [
     { label: 'Easy Maze 1', file: 'easy1.maze' },
     { label: 'Easy Maze 2', file: 'easy2.maze' },
+    { label: 'Easy Maze 3', file: 'easy3.maze' },
   ],
   challenging: [
     { label: 'Challenging Maze 1', file: 'challenging1.maze' },
@@ -453,6 +454,7 @@ export function zoomIn() {
     state.interval += ZOOM_STEP;
     drawGrid();
     drawCurrentPosition();
+    scrollToPlayer();
   }
 }
 
@@ -461,6 +463,7 @@ export function zoomOut() {
     state.interval -= ZOOM_STEP;
     drawGrid();
     drawCurrentPosition();
+    scrollToPlayer();
   }
 }
 
@@ -567,6 +570,7 @@ export function handleTouchMove(e) {
     state.interval = clamped;
     drawGrid();
     drawCurrentPosition();
+    scrollToPlayer();
   }
 }
 

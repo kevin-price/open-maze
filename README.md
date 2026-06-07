@@ -50,13 +50,13 @@ A built-in **Tutorial** walks you through all the mechanics step by step — hit
 Serve the project from the `open-maze` directory:
 
 ```bash
-npx serve .
+npx serve
 ```
 
 Or on a custom port:
 
 ```bash
-npx serve . -l 8080
+npx serve -l 8080
 ```
 
 To stop a server running in the background:
