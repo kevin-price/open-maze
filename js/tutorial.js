@@ -6,19 +6,25 @@
  * Each page is shown when the player reaches the corresponding position.
  */
 
-import { state }    from './state.js';
+import { state }                      from './state.js';
 import { loadMazeFile, tutorialFile } from './mazeIO.js';
+import { drawGrid, drawCurrentPosition } from './renderer.js';
+import { ZOOM_MIN }                   from './constants.js';
 
 // ─── Tutorial lifecycle ───────────────────────────────────────────────────────
 
 /**
  * Activates tutorial mode and loads the tutorial maze (mazes/tutorial.maze).
  */
-export function openTutorial() {
+export async function openTutorial() {
   state.tutorial = true;
-  // tutorialFile is async; tutorialHandler() will be called inside processFile
-  // once the maze data is loaded and state.spot is set correctly.
-  tutorialFile();
+  document.querySelector('.maze-wrap')?.setAttribute('data-tutorial', '');
+  await tutorialFile();
+  if (window.matchMedia('(max-width: 640px)').matches) {
+    state.interval = ZOOM_MIN + 5;
+    drawGrid();
+    drawCurrentPosition();
+  }
 }
 
 /**
@@ -26,6 +32,7 @@ export function openTutorial() {
  */
 export function endTutorial() {
   state.tutorial = false;
+  document.querySelector('.maze-wrap')?.removeAttribute('data-tutorial');
   const panel = document.getElementById('tutorial-panel');
   if (panel) {
     panel.hidden  = true;
@@ -79,6 +86,7 @@ export function tutorialHandler() {
     (x === 10 && y === 2) ||
     (x === -1 && y === 2)
   ) pageBacktrack();
+  else if (x < 1 || x > state.xGrids || y < 1 || y > state.yGrids) pageOffEdge();
 }
 
 // ─── Tutorial pages ───────────────────────────────────────────────────────────
@@ -96,6 +104,9 @@ function pageOne() {
 
     <p>The <strong>dark green</strong> marker shows where you start; the
     <strong>light green</strong> marker is the goal. There may be multiple goals.</p>
+
+    <p>On <strong>touch screens</strong>, swipe on the maze canvas to choose a
+    direction, tap the canvas to pause while moving, and pinch to zoom in or out.</p>
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
@@ -153,13 +164,23 @@ function pageFour() {
 function pageFive() {
   append(`
     <h2>Off the Edge!</h2>
-    <p>Oops — you went off the edge of the maze. You can backtrack to recover.</p>
+    <p>You went off the edge of the maze — this is intentional here so you can
+    see how to recover.</p>
 
-    <div class="tutorial-action">
-      <h3>📌 Action</h3>
-      <p>Press <strong>Backtrack</strong> or the <strong>B</strong> key.
-      When the page reappears, choose <strong>↑ Up</strong> to go up instead
-      of passing through the wall.</p>
+    <div class="tutorial-warning">
+      <strong>⚠️ You're outside the maze!</strong>
+      Press <strong>Backtrack</strong> or the <strong>B</strong> key to return.
+      When the junction reappears, choose <strong>↑ Up</strong> instead of
+      passing through the wall.
+    </div>`);
+}
+
+function pageOffEdge() {
+  append(`
+    <div class="tutorial-warning">
+      <strong>⚠️ You've gone off the edge of the maze!</strong>
+      Press <strong>Backtrack</strong> or the <strong>B</strong> key to return
+      to the last junction and try a different direction.
     </div>`);
 }
 

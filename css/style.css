@@ -481,6 +481,15 @@ kbd {
   margin-top: 10px;
 }
 
+.tutorial-warning {
+  background: #fff1f2;
+  border: 2px solid #f87171;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  color: #7f1d1d;
+}
+
 .tutorial-action h3 {
   font-size: .85rem;
   margin-bottom: 5px;
@@ -525,6 +534,28 @@ kbd {
     flex: none;
     width: 100%;
     max-height: 280px;
+  }
+
+  [data-tutorial] .canvas-area {
+    max-height: 42vh;
+  }
+
+  [data-tutorial] .tutorial-panel {
+    flex: 1;
+    max-height: none;
+    overflow-y: auto;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+  }
+
+  [data-tutorial] .scroll-col,
+  [data-tutorial] .scroll-row {
+    display: none;
+  }
+
+  [data-tutorial] .canvas-area {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
   }
 
   .action-bar { gap: 4px; padding: 6px 10px; }

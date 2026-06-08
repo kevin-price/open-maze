@@ -617,6 +617,10 @@ function _handleCanvasTap(e) {
     stopMaze();
     return;
   }
+  if (state.spot[3] === 'paused') {
+    resumeMaze();
+    return;
+  }
   if (state.spot[3] === 'startCustom') {
     const canvas = /** @type {HTMLCanvasElement} */ (document.getElementById('canvas'));
     const rect   = canvas.getBoundingClientRect();

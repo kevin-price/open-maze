@@ -304,6 +304,7 @@ export function stopHandler(obstacleIdx, push = true) {
   // ── Off the edge ───────────────────────────────────────────────────────────
   if (obstacleIdx === -1) {
     showOffEdgeUI();
+    if (state.tutorial) tutorialHandler();
     return;
   }
 
@@ -311,6 +312,7 @@ export function stopHandler(obstacleIdx, push = true) {
   if (state.obstacles[obstacleIdx].type === 'end') {
     addRouteToSolved();
     showVictoryUI();
+    if (state.tutorial) tutorialHandler();
     return;
   }
 
@@ -345,7 +347,7 @@ export function resumeMaze() {
  * Pauses movement.
  */
 export function stopMaze() {
-  state.spot[3] = 'stopped';
+  state.spot[3] = 'paused';
   showPausedUI();
 }
 
