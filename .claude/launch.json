@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "inverted-maze-v2",
+      "name": "open-maze",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["serve", ".", "--listen", "4321"],
-      "port": 4321
+      "runtimeArgs": ["serve", ".", "--listen", "4322"],
+      "port": 4322
     }
   ]
 }

@@ -154,6 +154,14 @@ export function initScrollbars() {
   makeTrackClickable(trackV, thumbV, 'v');
   makeTrackClickable(trackH, thumbH, 'h');
 
+  // ── Mouse wheel scroll ─────────────────────────────────────────────────────
+
+  scroll.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    scroll.scrollTop  += e.deltaY;
+    scroll.scrollLeft += e.deltaX;
+  }, { passive: false });
+
   scroll.addEventListener('scroll', updateVisibility);
 
   const ro = new ResizeObserver(updateVisibility);
