@@ -105,6 +105,9 @@ export const state = {
   /** True while tutorial mode is active. */
   tutorial: false,
 
+  /** Filename of the currently loaded built-in maze, or null for user-loaded files. */
+  currentFile: null,
+
   // ── Derived (read-only getters) ───────────────────────────────────────────
   get canvasWidth()  { return this.interval * this.xGrids  + BORDER * 2; },
   get canvasHeight() { return this.interval * this.yGrids  + BORDER * 2; },

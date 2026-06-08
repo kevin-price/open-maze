@@ -132,6 +132,7 @@ export async function loadMazeFile(filename) {
     const res  = await fetch(`mazes/${filename}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();
+    state.currentFile = filename;
     processFile(text);
   } catch (err) {
     alert(`Could not load maze "${filename}": ${err.message}`);

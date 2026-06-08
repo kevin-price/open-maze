@@ -185,13 +185,22 @@ export function showOffEdgeUI() {
 }
 
 /** Player reached the end. */
+function getNextMaze() {
+  const all = [...MAZE_CATALOG.easy, ...MAZE_CATALOG.challenging];
+  const idx = all.findIndex(m => m.file === state.currentFile);
+  return idx !== -1 && idx + 1 < all.length ? all[idx + 1] : null;
+}
+
 export function showVictoryUI() {
-  setActionBar(
+  const next = getNextMaze();
+  const buttons = [
     label('🎉 You solved it!'),
     sep(),
     createBtn('Play Again', startMaze, 'primary'),
-    createBtn('Other Mazes', () => showMazeSelectUI()),
-  );
+  ];
+  if (next) buttons.push(createBtn(`Next: ${next.label}`, () => loadMazeFile(next.file).then(startMaze)));
+  buttons.push(createBtn('Other Mazes', () => showMazeSelectUI()));
+  setActionBar(...buttons);
   clearKeyHints();
 }
 
