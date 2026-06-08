@@ -16,6 +16,7 @@ import {
   handleTouchMove,
   handleTouchEnd,
   showMazeSelectUI,
+  MAZE_CATALOG,
 } from './ui.js';
 
 // ─── Initialisation ───────────────────────────────────────────────────────────
@@ -42,15 +43,18 @@ function init() {
   canvas.addEventListener('touchmove',  handleTouchMove,  { passive: false });
   canvas.addEventListener('touchend',   handleTouchEnd,   { passive: false });
 
-  // Read URL parameters
-  const params   = new URLSearchParams(window.location.hash.replace(/^#&?/, '?').slice(1));
+  // Read URL query parameters
+  const params   = new URLSearchParams(window.location.search);
   const tutorial = params.get('tutorial');
   const maze     = params.get('maze');
 
+  const allMazes = [...MAZE_CATALOG.easy, ...MAZE_CATALOG.challenging];
+  const catalogMaze = maze && allMazes.find(m => m.file === maze);
+
   if (tutorial === 'true') {
     openTutorial();
-  } else if (maze) {
-    loadMazeFile(maze);
+  } else if (catalogMaze) {
+    loadMazeFile(catalogMaze.file);
   } else {
     // Default: load Easy Maze 1 and show the maze-select menu
     loadMazeFile('easy1.maze').then(() => showMazeSelectUI());

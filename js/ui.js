@@ -210,7 +210,7 @@ export function showVictoryUI() {
  * Config-driven catalog of built-in mazes.
  * Add entries here to extend the dropdowns — no other code changes required.
  */
-const MAZE_CATALOG = {
+export const MAZE_CATALOG = {
   easy: [
     { label: 'Easy Maze 1', file: 'easy1.maze' },
     { label: 'Easy Maze 2', file: 'easy2.maze' },
