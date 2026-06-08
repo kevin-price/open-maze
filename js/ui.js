@@ -614,10 +614,12 @@ export function handleTouchEnd(e) {
 
 function _handleCanvasTap(e) {
   if (state.spot[3] === 'moving') {
+    e.preventDefault(); // suppress the synthetic click that follows a touch tap
     stopMaze();
     return;
   }
   if (state.spot[3] === 'paused') {
+    e.preventDefault(); // suppress the synthetic click that follows a touch tap
     resumeMaze();
     return;
   }
