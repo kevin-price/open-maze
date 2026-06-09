@@ -69,6 +69,21 @@ npx kill-port 3000
 
 ---
 
+## URL Query Parameters
+
+You can deep-link directly into a specific state by appending query parameters to the URL.
+
+| Parameter | Example | Description |
+|---|---|---|
+| `maze` | `?maze=easy2.maze` | Load a specific built-in maze on page load. Must be a valid filename from the catalog. |
+| `tutorial` | `?tutorial` | Open the tutorial immediately on page load. |
+
+**Valid `maze` values:** `easy1.maze`, `easy2.maze`, `easy3.maze`, `challenging1.maze`, `challenging2.maze`
+
+Both parameters can be combined: `?tutorial&maze=…` is ignored in favour of the tutorial (tutorial takes priority).
+
+---
+
 ## File Format
 
 Mazes are saved as `.maze` files — plain text files you can open, share, and load directly in the browser. Use the **Maze Creator** to build one, then **Save Maze** to download it.

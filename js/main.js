@@ -51,7 +51,7 @@ function init() {
   const allMazes = [...MAZE_CATALOG.easy, ...MAZE_CATALOG.challenging];
   const catalogMaze = maze && allMazes.find(m => m.file === maze);
 
-  if (tutorial === 'true') {
+  if (tutorial !== null) {
     openTutorial();
   } else if (catalogMaze) {
     loadMazeFile(catalogMaze.file);
