@@ -219,6 +219,7 @@ export const MAZE_CATALOG = {
   challenging: [
     { label: 'Challenging Maze 1', file: 'challenging1.maze' },
     { label: 'Challenging Maze 2', file: 'challenging2.maze' },
+    { label: 'Challenging Maze 3', file: 'challenging3.maze' },
   ],
 };
 
