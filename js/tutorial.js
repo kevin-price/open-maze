@@ -97,7 +97,7 @@ function append(html) {
 
 function pageOne() {
   append(`
-    <h2>Welcome to Open Maze!</h2>
+    <h2>Welcome to Ricochet Maze!</h2>
     <p>This maze works differently from most. Instead of following a corridor,
     you travel in a straight line along the grid until you hit a <strong>barrier</strong>.
     The barrier tells you which turns are available.</p>
