@@ -335,17 +335,32 @@ export function showZoomUI() {
   clearKeyHints();
 }
 
-/** File-open prompt. */
+/** File-open prompt. 
+    Hides the default file selector and creates a label button over it. */
 export function showLoadUI() {
   const bar = document.getElementById('action-bar');
   bar.innerHTML = `<span class="action-label">Load .maze file:</span>`;
+  
+  const fileWrapper = document.createElement('div');
+  fileWrapper.className = 'file-upload-wrapper';
+  bar.appendChild(fileWrapper);
+  
   const fileInput = document.createElement('input');
   fileInput.type   = 'file';
   fileInput.accept = '.maze';
-  fileInput.className = 'action-input';
+  fileInput.id = 'file-upload';
+  //fileInput.className = 'action-input';
+  fileInput.className = 'hidden-input';
   fileInput.addEventListener('change', handleFileInput);
   const cancel = createBtn('Cancel', () => enterPlayMode(true), 'subtle');
-  bar.appendChild(fileInput);
+  fileWrapper.appendChild(fileInput);
+  
+  const fileLabel = document.createElement('label');
+  fileLabel.htmlFor = 'file-upload';
+  fileLabel.className = 'btn btn--primary';
+  fileLabel.innerHTML = 'Choose File';
+  fileWrapper.appendChild(fileLabel);
+  
   bar.appendChild(cancel);
 }
 
