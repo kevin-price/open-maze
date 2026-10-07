@@ -100,9 +100,8 @@ function pageOne() {
     <h2>Welcome to Ricochet Maze!</h2>
     <p>This maze works differently from most. Instead of following a corridor,
 	you travel in a straight line along the grid until you hit a 
-	<strong>barrier</strong>. The barrier tells you which turns are available.</p>
-
-    <p>The <strong>green</strong> markers show where you start and end the maze.</p>
+	<strong>barrier</strong>. The barrier tells you which turns are available. 
+	The <strong>green</strong> markers show where you start and end the maze.</p>
 
     <p>The game is playable on both PCs and touch devices — 
 	you can change directions in the maze using both arrow keys and swipe gestures.
