@@ -102,8 +102,7 @@ function pageOne() {
 	you travel in a straight line along the grid until you hit a 
 	<strong>barrier</strong>. The barrier tells you which turns are available.</p>
 
-    <p>The <strong>dark green</strong> marker shows where you start; 
-	the <strong>light green</strong> marker is the goal.</p>
+    <p>The <strong>green</strong> markers show where you start and end the maze.</p>
 
     <p>The game is playable on both PCs and touch devices — 
 	you can change directions in the maze using both arrow keys and swipe gestures.
