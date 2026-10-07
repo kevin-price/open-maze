@@ -104,8 +104,8 @@ function pageOne() {
 	The <strong>green</strong> markers show where you start and end the maze.</p>
 
     <p>The game is playable on both PCs and touch devices — 
-	you can change directions in the maze using both arrow keys and swipe gestures.
-	On <strong>touch screens</strong>, tap the canvas to pause while moving, 
+	you can change directions in the maze using both <strong>arrow keys</strong> and <strong>swipe gestures</strong>.
+	On touch screens, tap the canvas to pause while moving, 
 	and pinch to zoom in or out.</p>
 
     <div class="tutorial-action">
@@ -122,11 +122,10 @@ function pageTwo() {
     <h2>Your First Wall</h2>
     <p>You've hit a regular <strong>red wall</strong>. Coming from below, you can
     turn left or right — the wall blocks straight ahead.</p>
-    <p>Reminder: you can also use <strong>arrow keys</strong> or <strong>swipe gestures</strong> instead of the on-screen buttons!</p>
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Press <strong>Go Right</strong> or the <strong>→ Right arrow</strong>.
+      <p>Press <strong>Go Right</strong>, the <strong>→ Right arrow</strong>, or <strong>swipe right</strong>.
       (Choosing Left skips the dead-end demo on the next page.)</p>
     </div>`);
 }
@@ -139,7 +138,7 @@ function pageThree() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Press <strong>Turn Around</strong> or the <strong>← Left arrow</strong>.</p>
+      <p>Press <strong>Turn Around</strong>, the <strong>← Left arrow</strong>, or <strong>swipe left</strong>.</p>
     </div>`);
 }
 
@@ -155,10 +154,9 @@ function pageFour() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Pass through: press <strong>Move Forward</strong> or the
-      <strong>→ Right arrow</strong>.</p>
-      <p style="color:var(--color-danger)"><strong>If you've been here before,</strong>
-      press <strong>↑ Up</strong> instead.</p>
+      <p>Pass through: press <strong>Move Forward</strong>, the
+      <strong>→ Right arrow</strong>, or <strong>swipe right</strong>.</p>
+      <p style="color:var(--color-danger)"><strong>If you've been here before,</strong> press <strong>↑ Up</strong> instead.</p>
     </div>`);
 }
 
@@ -194,7 +192,7 @@ function pageSix() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Turn around: press <strong>↓ Down arrow</strong>.</p>
+      <p>Turn around: press <strong>Turn Around</strong>, the <strong>↓ Down arrow</strong> or <strong>swipe down</strong>.</p>
     </div>`);
 }
 
