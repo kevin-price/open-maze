@@ -104,7 +104,7 @@ function pageOne() {
 	The <strong>green</strong> markers show where you start and end the maze.</p>
 
     <p>The game is playable on both PCs and touch devices — 
-	you can change directions in the maze using both <strong>arrow keys</strong> and <strong>swipe gestures</strong>.
+	you can change directions in the maze using both <strong>arrow keys</strong> and <strong>swipe gestures</strong> on the maze canvas.
 	On touch screens, tap the canvas to pause while moving, 
 	and pinch to zoom in or out.</p>
 
