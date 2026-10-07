@@ -99,20 +99,23 @@ function pageOne() {
   append(`
     <h2>Welcome to Ricochet Maze!</h2>
     <p>This maze works differently from most. Instead of following a corridor,
-    you travel in a straight line along the grid until you hit a <strong>barrier</strong>.
-    The barrier tells you which turns are available.</p>
+	you travel in a straight line along the grid until you hit a 
+	<strong>barrier</strong>. The barrier tells you which turns are available.</p>
 
-    <p>The <strong>dark green</strong> marker shows where you start; the
-    <strong>light green</strong> marker is the goal. There may be multiple goals.</p>
+    <p>The <strong>dark green</strong> marker shows where you start; 
+	the <strong>light green</strong> marker is the goal.</p>
 
-    <p>On <strong>touch screens</strong>, swipe on the maze canvas to choose a
-    direction, tap the canvas to pause while moving, and pinch to zoom in or out.</p>
+    <p>The game is playable on both PCs and touch devices — 
+	you can change directions in the maze using both arrow keys and swipe gestures.
+	On <strong>touch screens</strong>, tap the canvas to pause while moving, 
+	and pinch to zoom in or out.</p>
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Click <strong>Show Start/End</strong> in the nav to highlight the start and
-      end, then press <strong>Begin Maze</strong> or the <strong>↑ Up arrow</strong>
-      to start moving.</p>
+      <p>Click <strong>Highlight start & end markers</strong> in the nav 
+	  to show the start and end locations, then press <strong>Begin Maze</strong>, 
+	  the <strong>↑ Up arrow</strong>, or <strong>swipe up</strong> 
+	  to start moving.</p>
     </div>`);
 }
 
@@ -121,7 +124,7 @@ function pageTwo() {
     <h2>Your First Wall</h2>
     <p>You've hit a regular <strong>red wall</strong>. Coming from below, you can
     turn left or right — the wall blocks straight ahead.</p>
-    <p>You can also use <strong>arrow keys</strong> instead of the on-screen buttons!</p>
+    <p>Reminder: you can also use <strong>arrow keys</strong> or <strong>swipe gestures</strong> instead of the on-screen buttons!</p>
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
