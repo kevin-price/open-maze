@@ -125,7 +125,7 @@ function pageTwo() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Press <strong>Go Right</strong>, the <strong>→ Right arrow</strong>, or <strong>swipe right</strong>.
+      <p>Press <strong>Go Right</strong>, the <strong>→ Right arrow</strong>, or <strong>swipe right</strong> on the maze canvas.
       (Choosing Left skips the dead-end demo on the next page.)</p>
     </div>`);
 }
