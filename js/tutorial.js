@@ -192,7 +192,7 @@ function pageSix() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Turn around: press <strong>Turn Around</strong>, the <strong>↓ Down arrow</strong> or <strong>swipe down</strong>.</p>
+      <p>Turn around: press <strong>Turn Around</strong>, the <strong>↓ Down arrow</strong>, or <strong>swipe down</strong>.</p>
     </div>`);
 }
 
