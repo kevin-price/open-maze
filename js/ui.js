@@ -365,29 +365,55 @@ export function showLoadUI() {
   bar.appendChild(cancel);
 }
 
+function isMobileOrTablet() {
+  // 1. Check Modern User-Agent Client Hints (Android Tablets, modern Chromium Mobile)
+  if (navigator.userAgentData) {
+    return navigator.userAgentData.mobile; 
+  }
+
+  const ua = navigator.userAgent;
+
+  // 2. Detect iPads (Safari on iPadOS sends a "Macintosh" string but supports multi-touch)
+  const isiPad = /Macintosh/i.test(ua) && navigator.maxTouchPoints && navigator.maxTouchPoints > 1;
+
+  // 3. Detect standard Mobile/Tablet User-Agents (Android, older iOS, Firefox Mobile)
+  const hasMobileUA = /Mobi|Android|iPad|iPhone|Tablet/i.test(ua);
+
+  // 4. The Laptop Filter: Check if the primary input mechanism is "coarse" (finger touch)
+  // Touchscreen PC laptops support touch, but their PRIMARY pointer is still a "fine" mouse/trackpad.
+  const isPrimaryTouch = window.matchMedia('(pointer: coarse)').matches;
+
+  // If it's a known mobile UA, or it's an iPad, OR it explicitly uses a coarse touch pointer as primary
+  return isiPad || hasMobileUA || isPrimaryTouch;
+}
+
 /** Filename prompt for saving. */
 export function showSaveUI() {
-  //unnecessary/duplicate save-as prompt. Use the browser's Save As dialog instead.
-  
-  /*const bar = document.getElementById('action-bar');
-  bar.innerHTML = `<span class="action-label">Save as:</span>`;
-  const input = document.createElement('input');
-  input.type      = 'text';
-  input.id        = 'save-filename';
-  input.className = 'action-input';
-  input.placeholder = 'my-maze';
-  const ok     = createBtn('Save', () => {
-    const name = document.getElementById('save-filename').value.trim() || 'my-maze';
-    outputFile(name);
-    showCreatorUI();
-  }, 'primary');
-  const cancel = createBtn('Cancel', showCreatorUI, 'subtle');
-  bar.appendChild(input);
-  bar.appendChild(ok);
-  bar.appendChild(cancel);*/
-
-  const name = 'my-maze';
-  outputFile(name);
+  //Detect if the user is a mobile device. If so, create a save-as dialog.
+  //Otherwise, use the browser's built-in "Save As" dialog.
+  if (isMobileOrTablet()) {
+    // Likely a touch-enabled mobile or tablet device
+	const bar = document.getElementById('action-bar');
+	bar.innerHTML = `<span class="action-label">Save as:</span>`;
+	const input = document.createElement('input');
+	input.type      = 'text';
+	input.id        = 'save-filename';
+	input.className = 'action-input';
+	input.placeholder = 'my-maze';
+	const ok     = createBtn('Save', () => {
+		const name = document.getElementById('save-filename').value.trim() || 'my-maze';
+		outputFile(name);
+		showCreatorUI();
+	}, 'primary');
+	const cancel = createBtn('Cancel', showCreatorUI, 'subtle');
+	bar.appendChild(input);
+	bar.appendChild(ok);
+	bar.appendChild(cancel);
+  }
+  else {
+	const name = 'my-maze';
+	outputFile(name);
+  }
 }
 
 // ─── Mode entry points ────────────────────────────────────────────────────────
