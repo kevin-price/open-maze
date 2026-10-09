@@ -367,7 +367,9 @@ export function showLoadUI() {
 
 /** Filename prompt for saving. */
 export function showSaveUI() {
-  const bar = document.getElementById('action-bar');
+  //unnecessary/duplicate save-as prompt. Use the browser's Save As dialog instead.
+  
+  /*const bar = document.getElementById('action-bar');
   bar.innerHTML = `<span class="action-label">Save as:</span>`;
   const input = document.createElement('input');
   input.type      = 'text';
@@ -382,7 +384,10 @@ export function showSaveUI() {
   const cancel = createBtn('Cancel', showCreatorUI, 'subtle');
   bar.appendChild(input);
   bar.appendChild(ok);
-  bar.appendChild(cancel);
+  bar.appendChild(cancel);*/
+
+  const name = 'my-maze';
+  outputFile(name);
 }
 
 // ─── Mode entry points ────────────────────────────────────────────────────────
