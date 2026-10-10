@@ -21,7 +21,7 @@ export async function openTutorial() {
   document.querySelector('.maze-wrap')?.setAttribute('data-tutorial', '');
   await tutorialFile();
   if (window.matchMedia('(max-width: 640px)').matches) {
-    state.interval = ZOOM_MIN + 10;
+    state.interval = ZOOM_MIN + 7;
     drawGrid();
     drawCurrentPosition();
   }
