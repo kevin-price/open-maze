@@ -756,7 +756,10 @@ export function wireNavButtons() {
 
   wire('nav-tutorial', openTutorial);
   wire('nav-mazes',    () => showMazeSelectUI());
-  wire('nav-creator',  enterCreatorMode);
+  wire('nav-creator',  () => {
+    endTutorial(false);
+    enterCreatorMode();
+  });
   wire('nav-ends',     () => {
     displayEnds();
     // Show ends for 1.5 s then redraw
