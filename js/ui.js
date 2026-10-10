@@ -202,9 +202,12 @@ export function showVictoryUI() {
     sep(),
     createBtn('Play Again', startMaze, 'primary'),
   ];
+  
+  //if the tutorial is active, then the Next: button ends the tutorial.
   if (next) buttons.push(
 	createBtn(`Next: ${next.label}`, () => {
-        endTutorial();
+        if(state.tutorial) { endTutorial(false); } 
+		//actually the false shouldn't matter here because it would open Easy Maze 1 anyway. But I'll keep it.
         loadMazeFile(next.file).then(startMaze);
       })
     );
@@ -259,8 +262,13 @@ function createMazeSelect(groupLabel, mazes) {
     sel.appendChild(opt);
   }
 
+  //if the tutorial is active, then selecting a maze from the dropdown menu 
+  // ends the tutorial.
   sel.addEventListener('change', () => {
-    if (sel.value) loadMazeFile(sel.value);
+    if (sel.value) {
+      if (state.tutorial) { endTutorial(false); }
+      loadMazeFile(sel.value);
+    }
   });
 
   return sel;

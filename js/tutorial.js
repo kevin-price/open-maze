@@ -30,7 +30,7 @@ export async function openTutorial() {
 /**
  * Deactivates tutorial mode, clears the tutorial panel, and loads Sample 1.
  */
-export function endTutorial() {
+export function endTutorial(loadDefault = true) {
   state.tutorial = false;
   document.querySelector('.maze-wrap')?.removeAttribute('data-tutorial');
   const panel = document.getElementById('tutorial-panel');
@@ -39,12 +39,15 @@ export function endTutorial() {
     panel.innerHTML = '';
   }
 
+  // Only load Easy Maze 1 if requested (e.g., clicking skip)
   // Load Easy Maze 1, then show the maze-select menu so the user can choose.
   // The .then() fires after processFile finishes, ensuring the action bar
   // is not overwritten by enterPlayMode() inside loadMazeFile().
-  loadMazeFile('easy1.maze').then(() => {
-    import('./ui.js').then(({ showMazeSelectUI }) => showMazeSelectUI());
-  });
+  if (loadDefault) {
+    loadMazeFile('easy1.maze').then(() => {
+      import('./ui.js').then(({ showMazeSelectUI }) => showMazeSelectUI());
+    });
+  }
 }
 
 // ─── Tutorial dispatcher ──────────────────────────────────────────────────────

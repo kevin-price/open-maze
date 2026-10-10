@@ -172,7 +172,15 @@ export function handleFileInput(event) {
   if (!file) return;
 
   const reader = new FileReader();
-  reader.onload  = e => processFile(e.target.result);
+  
+  reader.onload = e => {
+    // End the tutorial first so its state is cleared
+    import('./tutorial.js').then(m => {
+      m.endTutorial(false);
+      processFile(e.target.result);
+    });
+  };
+  
   reader.onerror = e => alert('File could not be read. Code: ' + e.target.error.code);
   reader.readAsText(file);
 }
