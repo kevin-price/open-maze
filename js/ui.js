@@ -208,7 +208,7 @@ export function showVictoryUI() {
 	createBtn(`Next: ${next.label}`, () => {
         if(state.tutorial) { endTutorial(false); } 
 		//actually the false shouldn't matter here because it would open Easy Maze 1 anyway. But I'll keep it.
-        loadMazeFile(next.file).then(startMaze);
+        loadMazeFile(next.file);
       })
     );
   buttons.push(createBtn('Other Mazes', () => showMazeSelectUI()));
@@ -756,10 +756,7 @@ export function wireNavButtons() {
 
   wire('nav-tutorial', openTutorial);
   wire('nav-mazes',    () => showMazeSelectUI());
-  wire('nav-creator',  () => {
-    endTutorial(false);
-    enterCreatorMode();
-  });
+  wire('nav-creator',  enterCreatorMode);
   wire('nav-ends',     () => {
     displayEnds();
     // Show ends for 1.5 s then redraw

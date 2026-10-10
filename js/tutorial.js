@@ -19,6 +19,11 @@ import { ZOOM_MIN }                   from './constants.js';
 export async function openTutorial() {
   state.tutorial = true;
   document.querySelector('.maze-wrap')?.setAttribute('data-tutorial', '');
+
+  // Hide the Maze Creator button during the tutorial
+  const creatorBtn = document.getElementById('nav-creator');
+  if (creatorBtn) creatorBtn.style.display = 'none';
+
   await tutorialFile();
   if (window.matchMedia('(max-width: 640px)').matches) {
     state.interval = ZOOM_MIN + 7;
@@ -39,6 +44,10 @@ export function endTutorial(loadDefault = true) {
     panel.innerHTML = '';
   }
 
+  // Restore the Maze Creator button
+  const creatorBtn = document.getElementById('nav-creator');
+  if (creatorBtn) creatorBtn.style.display = '';
+  
   // Only load Easy Maze 1 if requested (e.g., clicking skip)
   // Load Easy Maze 1, then show the maze-select menu so the user can choose.
   // The .then() fires after processFile finishes, ensuring the action bar
