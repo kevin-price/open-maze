@@ -192,13 +192,22 @@ function getNextMaze() {
 }
 
 export function showVictoryUI() {
-  const next = getNextMaze();
+  let next;
+  if (state.tutorial===true){ 
+	next = {label: 'Easy Maze 1', file: 'easy1.maze'};
+  } else { next = getNextMaze();  }
+  
   const buttons = [
     label('🎉 You solved it!'),
     sep(),
     createBtn('Play Again', startMaze, 'primary'),
   ];
-  if (next) buttons.push(createBtn(`Next: ${next.label}`, () => loadMazeFile(next.file).then(startMaze)));
+  if (next) buttons.push(
+	createBtn(`Next: ${next.label}`, () => {
+        endTutorial();
+        loadMazeFile(next.file).then(startMaze);
+      })
+    );
   buttons.push(createBtn('Other Mazes', () => showMazeSelectUI()));
   setActionBar(...buttons);
   clearKeyHints();
