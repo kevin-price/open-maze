@@ -450,6 +450,9 @@ kbd {
 #canvas {
   display: block;
   background: var(--canvas-bg);
+  background-image: url('../assets/bg.jpg');
+  background-repeat: repeat;
+  background-position: center;
   border: 1px solid #cbd5e1;
   border-radius: 4px;
   box-shadow: var(--canvas-shadow);
