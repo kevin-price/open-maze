@@ -82,7 +82,7 @@ export function findEnds() {
 
 /**
  * Registers a new obstacle in state.obstacles and the lookup grids,
- * then draws it immediately on the canvas.
+ * then draws it immediately on the canvas with matching custom styles.
  *
  * If the type is 'begin', any existing begin obstacle is removed first
  * (there can only be one). begin obstacles are always horizontal.
@@ -126,19 +126,70 @@ export function drawObstacle(obstacle) {
   const iv     = state.interval;
   const x      = obstacle.x * iv + BORDER;
   const y      = obstacle.y * iv + BORDER;
+  const x2     = (obstacle.orient === 'vertical') ? x : x + iv;
+  const y2     = (obstacle.orient === 'vertical') ? y + iv : y;
 
-  ctx.beginPath();
-  ctx.lineWidth   = 2;
-  ctx.strokeStyle = COLORS[obstacle.type] ?? COLORS.wall;
-
-  if (obstacle.orient === 'vertical') {
-    ctx.moveTo(x, y);
-    ctx.lineTo(x, y + iv);
+  // Apply dynamic dashed line style for permeable walls based on zoom/interval
+  if (obstacle.type === 'permeable') {
+    const dashSize = Math.max(2, Math.round(state.interval * 0.2));
+    ctx.setLineDash([dashSize, dashSize]);
   } else {
-    ctx.moveTo(x, y);
-    ctx.lineTo(x + iv, y);
+    ctx.setLineDash([]);
   }
-  ctx.stroke();
+  
+  if (obstacle.type === 'end') {
+    // A. Halo effect: Draw a wider gold background line
+    ctx.beginPath();
+    ctx.strokeStyle = COLORS.endMarker;
+    ctx.lineWidth = 6;
+    ctx.moveTo(x, y);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    // Draw the core green end line on top of the halo
+    ctx.beginPath();
+    ctx.strokeStyle = COLORS.end;
+    ctx.lineWidth = 2;
+    ctx.moveTo(x, y);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    // B. Double-sided markers based on orientation
+    const midX = (x + x2) / 2;
+    const midY = (y + y2) / 2;
+    const offset = 6;
+    const markerPoints = [];
+
+    if (obstacle.orient === 'horizontal') {
+      markerPoints.push({ x: midX, y: midY - offset });
+      markerPoints.push({ x: midX, y: midY + offset });
+    } else {
+      markerPoints.push({ x: midX - offset, y: midY });
+      markerPoints.push({ x: midX + offset, y: midY });
+    }
+
+    ctx.setLineDash([]); // Reset line dash for markers
+    for (const pt of markerPoints) {
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, 3, 0, 2 * Math.PI);
+      ctx.fillStyle = COLORS.endMarker;
+      ctx.fill();
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.stroke();
+    }
+  } else {
+    // Standard drawing logic for wall, permeable, begin
+    ctx.beginPath();
+    ctx.lineWidth   = 2;
+    ctx.strokeStyle = COLORS[obstacle.type] ?? COLORS.wall;
+    ctx.moveTo(x, y);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+  }
+
+  // Ensure line dash is reset for subsequent drawing
+  ctx.setLineDash([]);
 }
 
 // ─── Click → grid-line snap ───────────────────────────────────────────────────

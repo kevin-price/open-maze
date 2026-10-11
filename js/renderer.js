@@ -72,21 +72,33 @@ export function drawGrid() {
 // ─── Obstacle drawing ─────────────────────────────────────────────────────────
 
 /**
- * Draws all obstacles, batched by type so each colour only needs one beginPath.
+ * Draws all obstacles, batched by type, with dashed permeable walls and a halo/double-marker end piece.
  * @param {CanvasRenderingContext2D} ctx
  */
 function _drawObstacles(ctx) {
   const iv = state.interval;
 
+  // 1. Draw standard and specialized obstacle types
   for (const type of OBSTACLE_TYPES) {
+    if (type === 'end') continue; // Handle 'end' separately below
+
     ctx.beginPath();
     ctx.strokeStyle = COLORS[type];
     ctx.lineWidth = 2;
 
+// Apply a dynamic dashed pattern for permeable walls based on zoom/interval
+    if (type === 'permeable') {
+      const dashSize = Math.max(2, Math.round(state.interval * 0.2));
+      ctx.setLineDash([dashSize, dashSize]);
+    } else {
+      ctx.setLineDash([]); // Solid line for walls, begin, etc.
+    }
+	
     for (const obs of state.obstacles) {
       if (obs.type !== type) continue;
       const x = obs.x * iv + BORDER;
       const y = obs.y * iv + BORDER;
+      
       if (obs.orient === 'vertical') {
         ctx.moveTo(x, y);
         ctx.lineTo(x, y + iv);
@@ -96,6 +108,59 @@ function _drawObstacles(ctx) {
       }
     }
     ctx.stroke();
+  }
+
+  // Reset line dash to solid just in case
+  ctx.setLineDash([]);
+
+  // 2. Draw the 'end' obstacle with a halo effect and double-sided markers
+  for (const obs of state.obstacles) {
+    if (obs.type !== 'end') continue;
+    
+    const x = obs.x * iv + BORDER;
+    const y = obs.y * iv + BORDER;
+    const x2 = (obs.orient === 'vertical') ? x : x + iv;
+    const y2 = (obs.orient === 'vertical') ? y + iv : y;
+    const midX = (x + x2) / 2;
+    const midY = (y + y2) / 2;
+
+    // A. Halo effect: Draw a wider gold background line
+    ctx.beginPath();
+    ctx.strokeStyle = COLORS.endMarker;
+    ctx.lineWidth = 6;
+    ctx.moveTo(x, y);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    // Draw the core green end line on top of the halo[cite: 1]
+    ctx.beginPath();
+    ctx.strokeStyle = COLORS.end;
+    ctx.lineWidth = 2;
+    ctx.moveTo(x, y);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    // B. Double-sided markers based on orientation
+    const offset = 6;
+    const markerPoints = [];
+
+    if (obs.orient === 'horizontal') {
+      markerPoints.push({ x: midX, y: midY - offset });
+      markerPoints.push({ x: midX, y: midY + offset });
+    } else {
+      markerPoints.push({ x: midX - offset, y: midY });
+      markerPoints.push({ x: midX + offset, y: midY });
+    }
+
+    for (const pt of markerPoints) {
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, 3, 0, 2 * Math.PI);
+      ctx.fillStyle = COLORS.endMarker;
+      ctx.fill();
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.stroke();
+    }
   }
 }
 
