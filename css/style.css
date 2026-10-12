@@ -317,17 +317,24 @@ kbd {
   overflow: hidden; /* clip; canvas-scroll handles its own scrolling */
 }
 
-/* ── Canvas area grid ───────────────────────────────────────────────────────── */
-/* Grid wrapper: canvas | v-buttons / h-buttons | corner */
+/* ── Canvas area grid (Dynamic tracks) ─────────────────────────────────────── */
 .canvas-area {
   display: grid;
-  grid-template-columns: 1fr 48px;
-  grid-template-rows: 1fr 48px;
+  grid-template-columns: 1fr 0px;
+  grid-template-rows: 1fr 0px;
   flex-shrink: 0;
-  /* Fill the maze-wrap's available height exactly — no hardcoded calc needed */
   max-width: calc(100vw - 32px);
   height: 100%;
   max-height: 100%;
+}
+
+/* Automatically open the 48px gutters only when scrollbars are active */
+.canvas-area[data-has-v="true"] {
+  grid-template-columns: 1fr 48px;
+}
+
+.canvas-area[data-has-h="true"] {
+  grid-template-rows: 1fr 48px;
 }
 
 .canvas-scroll {
@@ -339,6 +346,14 @@ kbd {
   min-height: 0;
 }
 .canvas-scroll::-webkit-scrollbar { display: none; } /* Chrome/Safari/Edge */
+
+/* Hide scroll controls smoothly via opacity instead of altering layout visibility */
+.scroll-col[data-hidden="true"],
+.scroll-row[data-hidden="true"],
+.scroll-corner[data-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
 
 /* ── Combined arrow-button + scrollbar controls ─────────────────────────────── */
 :root {

@@ -26,15 +26,24 @@ export function initScrollbars() {
 
   // ── Visibility ─────────────────────────────────────────────────────────────
 
-  function updateVisibility() {
-    const needsV = scroll.scrollHeight > scroll.clientHeight + 1;
-    const needsH = scroll.scrollWidth  > scroll.clientWidth  + 1;
-    colGrp.dataset.hidden = needsV ? 'false' : 'true';
-    rowGrp.dataset.hidden = needsH ? 'false' : 'true';
-    if (needsV) updateThumb('v');
-    if (needsH) updateThumb('h');
+function updateVisibility() {
+  const needsV = scroll.scrollHeight > scroll.clientHeight + 1;
+  const needsH = scroll.scrollWidth  > scroll.clientWidth  + 1;
+
+  colGrp.dataset.hidden = needsV ? 'false' : 'true';
+  rowGrp.dataset.hidden = needsH ? 'false' : 'true';
+
+  // Dynamically toggle the grid columns/rows on the parent container
+  const canvasArea = scroll.closest('.canvas-area');
+  if (canvasArea) {
+    canvasArea.dataset.hasV = needsV ? 'true' : 'false';
+    canvasArea.dataset.hasH = needsH ? 'true' : 'false';
   }
 
+  if (needsV) updateThumb('v');
+  if (needsH) updateThumb('h');
+}
+  
   // ── Thumb position sync ────────────────────────────────────────────────────
 
   function updateThumb(axis) {
