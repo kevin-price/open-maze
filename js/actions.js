@@ -129,6 +129,7 @@ export function backTrack() {
       state.turns = { upkey: 'forward' };
       drawGrid();
       drawCurrentPosition();
+	  if (state.tutorial) tutorialHandler();  //backtrack to beginning of tutorial
       enterPlayMode(true);
       return;
     }
