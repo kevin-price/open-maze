@@ -34,12 +34,12 @@ function init() {
   // Keyboard input
   document.addEventListener('keydown', handleKeyDown);
 
-  // Canvas: mouse clicks / tap to stop. 
+  // Canvas: mouse clicks
   const canvas = document.getElementById('canvas');
   canvas.addEventListener('click', handleCanvasClick);
 
-  // area around the Canvas: 
-  //touch (swipe to choose direction, pinch to zoom)
+  // Area around the canvas:
+  //     touch (swipe to choose direction, pinch to zoom, tap to stop. )
   const touchTarget = document.getElementById('canvas-scroll');
   touchTarget.addEventListener('touchstart', handleTouchStart, { passive: false });
   touchTarget.addEventListener('touchmove',  handleTouchMove,  { passive: false });
