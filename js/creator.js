@@ -286,3 +286,26 @@ export function applyGridSize(horizontal, vertical) {
   drawGrid();
   return true;
 }
+
+/**
+ * Shifts all barriers by a specified number of grid spaces.
+ * @param {number} dx  Columns to shift (positive = right, negative = left)
+ * @param {number} dy  Rows to shift (positive = down, negative = up)
+ */
+export function shiftAllBarriers(dx, dy) {
+  if (dx === 0 && dy === 0) return;
+
+  for (const obs of state.obstacles) {
+    obs.x += dx;
+    obs.y += dy;
+  }
+
+  // Also shift the beginning position if it exists
+  if (state.beginning && state.beginning.length >= 2) {
+    state.beginning[0] += dx;
+    state.beginning[1] += dy;
+  }
+
+  generateObstacleGrid();
+  drawGrid();
+}

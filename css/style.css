@@ -152,6 +152,24 @@ a:hover { text-decoration: underline; }
   font-size: 1rem;
 }
 
+/* Subtle color for unselected "Draw:" buttons */
+.btn--draw {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+.btn--draw:hover {
+  background: #e2e8f0;
+}
+
+/* Ensure the active state correctly overrides the draw style */
+.btn--draw.btn--active {
+  background: var(--btn-active-bg);
+  color: var(--btn-active-text);
+  border-color: transparent;
+}
+
 /* ── Action bar ─────────────────────────────────────────────────────────────── */
 .action-bar-wrap {
   position: sticky;
@@ -233,6 +251,18 @@ a:hover { text-decoration: underline; }
   background: #fff;
   color: var(--text);
   cursor: pointer;
+}
+
+/* so the "Draw:" buttons in the maze creator flow as a group */
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+  background: rgba(255, 255, 255, 0.45); /* Subtle white/translucent tint */
+  border: 1px solid rgba(147, 197, 253, 0.6); /* Soft border matching the action bar theme */
+  border-radius: 6px;
+  padding: 2px 6px;
 }
 
 /* ── Key-hint strip ─────────────────────────────────────────────────────────── */
@@ -589,6 +619,10 @@ kbd {
 
   .action-bar { gap: 4px; padding: 6px 10px; }
   .btn { font-size: .8rem; padding: 4px 10px; }
+  
+  .action-group {    /* the Draw: buttons in the Maze Creator */
+    flex-wrap: wrap; /* Allow internal wrapping only on tiny mobile screens */
+  }
 }
 
 /* ── Focus ring (accessibility) ─────────────────────────────────────────────── */

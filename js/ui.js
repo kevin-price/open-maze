@@ -289,23 +289,28 @@ export function showMazeSelectUI() {
 
 /** Maze creator toolbar. */
 export function showCreatorUI() {
-  // Draw-type buttons with active state
+  // Pass 'draw' as the button variant. Draw-type buttons with active state
   const drawBtn = (lbl, type) => {
-    const b = createBtn(lbl, () => { state.obstacleType = type; updateCreatorActive(); });
+    const b = createBtn(lbl, () => { state.obstacleType = type; updateCreatorActive(); }, 'draw');
     b.dataset.drawType = type;
     return b;
   };
 
+  const drawGroup = document.createElement('div');
+  drawGroup.className = 'action-group';
+  drawGroup.appendChild(label('Draw:'));
+  drawGroup.appendChild(drawBtn('Wall',       'wall'));
+  drawGroup.appendChild(drawBtn('Permeable',  'permeable'));
+  drawGroup.appendChild(drawBtn('Beginning',  'begin'));
+  drawGroup.appendChild(drawBtn('End',        'end'));
+
   setActionBar(
     createBtn('Grid Size', showGridSizeUI),
+    createBtn('Shift Maze', showShiftMazeUI),
     createBtn('Erase All', eraseMaze, 'danger'),
     createBtn('Save Maze', saveMaze),
     sep(),
-    label('Draw:'),
-    drawBtn('Wall',       'wall'),
-    drawBtn('Permeable',  'permeable'),
-    drawBtn('Beginning',  'begin'),
-    drawBtn('End',        'end'),
+    drawGroup,
     sep(),
     createBtn('Done', () => enterPlayMode(false)),
   );
@@ -341,6 +346,33 @@ export function showGridSizeUI() {
   bar.appendChild(ok);
   bar.appendChild(cancel);
 }
+
+// Shift all barriers a specified number of units.
+export function showShiftMazeUI() {
+  const bar = document.getElementById('action-bar');
+  bar.innerHTML = `
+    <span class="action-label">Shift X (cols):</span>
+    <input type="number" id="input-shift-x" class="action-input" value="0">
+    <span class="action-label" style="margin-left:12px">Shift Y (rows):</span>
+    <input type="number" id="input-shift-y" class="action-input" value="0">
+  `;
+  
+  const applyBtn = createBtn('Apply Shift', () => {
+    const dx = parseInt(document.getElementById('input-shift-x').value, 10) || 0;
+    const dy = parseInt(document.getElementById('input-shift-y').value, 10) || 0;
+    
+    // Import and call shift function from creator.js
+    import('./creator.js').then(({ shiftAllBarriers }) => {
+      shiftAllBarriers(dx, dy);
+      showCreatorUI();
+    });
+  }, 'primary');
+
+  const cancel = createBtn('Cancel', showCreatorUI, 'subtle');
+  bar.appendChild(applyBtn);
+  bar.appendChild(cancel);
+}
+
 
 /** Zoom controls. */
 export function showZoomUI() {
