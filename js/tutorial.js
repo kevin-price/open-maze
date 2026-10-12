@@ -115,9 +115,8 @@ function pageOne() {
 	<strong>barrier</strong>. The barrier tells you which turns are available. 
 	The <strong>green</strong> markers show where you start and end the maze.</p>
 
-    <p>The game is playable on both PCs and touch devices — 
-	you can change directions in the maze using both <strong>arrow keys</strong> and <strong>swipe gestures</strong> on the maze canvas.
-	On touch screens, tap the canvas to pause while moving, 
+    <p>You can change directions in the maze using <strong>arrow keys</strong> or <strong>swipe gestures</strong> on the maze grid. 
+	On touch devices, tap the maze to pause while moving, 
 	and pinch to zoom in or out.</p>
 
     <div class="tutorial-action">
