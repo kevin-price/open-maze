@@ -40,7 +40,7 @@ function init() {
 
   // Area around the canvas:
   //     touch (swipe to choose direction, pinch to zoom, tap to stop. )
-  const touchTarget = document.getElementById('canvas-scroll');
+  const touchTarget = document.querySelector('.maze-wrap');
   touchTarget.addEventListener('touchstart', handleTouchStart, { passive: false });
   touchTarget.addEventListener('touchmove',  handleTouchMove,  { passive: false });
   touchTarget.addEventListener('touchend',   handleTouchEnd,   { passive: false });

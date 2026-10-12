@@ -649,6 +649,13 @@ function _pinchDist(e) {
  * @param {TouchEvent} e
  */
 export function handleTouchStart(e) {
+  // If the tutorial is open and the touch starts inside the tutorial panel, 
+  // ignore custom maze handling so the tutorial text can scroll normally.
+  const tutorialPanel = document.getElementById('tutorial-panel');
+  if (state.tutorial && tutorialPanel && tutorialPanel.contains(e.target)) {
+    return;
+  }
+
   if (e.touches.length >= 2) {
     // Second finger down — start a pinch, cancel any pending swipe
     _touchStart = null;
@@ -665,8 +672,16 @@ export function handleTouchStart(e) {
  * @param {TouchEvent} e
  */
 export function handleTouchMove(e) {
-  if (!_pinchStart || e.touches.length < 2) return;
+  // If the tutorial is open and touch starts/moves inside the tutorial panel, allow normal scrolling
+  const tutorialPanel = document.getElementById('tutorial-panel');
+  if (state.tutorial && tutorialPanel && tutorialPanel.contains(e.target)) {
+    return;
+  }
+
+  // Prevent default browser behaviors like pull-to-refresh or page scrolling
   e.preventDefault();
+
+  if (!_pinchStart || e.touches.length < 2) return;
 
   const scale       = _pinchDist(e) / _pinchStart.dist;
   const newInterval = Math.round(_pinchStart.interval * scale);

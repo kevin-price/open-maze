@@ -36,7 +36,23 @@ export function processFile(xmlText) {
 
   state.xGrids   = parseInt(getText('X_GRIDS'),       10);
   state.yGrids   = parseInt(getText('Y_GRIDS'),       10);
-  state.interval = parseInt(getText('DefaultSpacing'), 10);
+
+  const defaultSpacing = parseInt(getText('DefaultSpacing'), 10);
+  const mobileSpacing  = parseInt(getText('MobileSpacing'),  10);
+
+  // Check if we are on a mobile screen width (e.g. 768px or smaller)
+  const isMobile = window.innerWidth <= 600;
+
+  if (isMobile && !isNaN(mobileSpacing)) {
+    // Use the explicit mobile zoom defined in the XML file
+    state.interval = mobileSpacing;
+  } else if (isMobile) {
+    // Fallback: If no mobile spacing is set in XML, automatically zoom out by ~25%
+    state.interval = Math.round(defaultSpacing * 0.75);
+  } else {
+    // Desktop default
+    state.interval = defaultSpacing;
+  }
 
   // Reload obstacles
   state.obstacles = [];
