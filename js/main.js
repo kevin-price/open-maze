@@ -34,14 +34,16 @@ function init() {
   // Keyboard input
   document.addEventListener('keydown', handleKeyDown);
 
-  // Canvas: mouse clicks
+  // Canvas: mouse clicks / tap to stop. 
   const canvas = document.getElementById('canvas');
   canvas.addEventListener('click', handleCanvasClick);
 
-  // Canvas: touch (swipe to choose direction, tap to stop, pinch to zoom)
-  canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
-  canvas.addEventListener('touchmove',  handleTouchMove,  { passive: false });
-  canvas.addEventListener('touchend',   handleTouchEnd,   { passive: false });
+  // area around the Canvas: 
+  //touch (swipe to choose direction, pinch to zoom)
+  const touchTarget = document.getElementById('canvas-scroll');
+  touchTarget.addEventListener('touchstart', handleTouchStart, { passive: false });
+  touchTarget.addEventListener('touchmove',  handleTouchMove,  { passive: false });
+  touchTarget.addEventListener('touchend',   handleTouchEnd,   { passive: false });
 
   // Read URL query parameters
   const params   = new URLSearchParams(window.location.search);
