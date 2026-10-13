@@ -4,8 +4,7 @@
  */
 
 import { state }               from './state.js';
-import { drawGrid }            from './renderer.js';
-import { loadMazeFile }        from './mazeIO.js';
+import { loadMazeFile, loadDefaultMazeSync } from './mazeIO.js';
 import { openTutorial }        from './tutorial.js';
 import { initScrollbars }      from './scrollbars.js';
 import {
@@ -22,8 +21,8 @@ import {
 // ─── Initialisation ───────────────────────────────────────────────────────────
 
 function init() {
-  // Draw the empty grid immediately
-  drawGrid();
+  // NOTE: Removed initial drawGrid() here. loadDefaultMazeSync() or loadMazeFile() 
+  // will draw the grid immediately with the correct final dimensions, avoiding a layout shift.
 
   // Wire persistent nav buttons
   wireNavButtons();
@@ -38,8 +37,7 @@ function init() {
   const canvas = document.getElementById('canvas');
   canvas.addEventListener('click', handleCanvasClick);
 
-  // Area around the canvas:
-  //     touch (swipe to choose direction, pinch to zoom, tap to stop. )
+  // Area around the canvas: touch events
   const touchTarget = document.querySelector('.maze-wrap');
   touchTarget.addEventListener('touchstart', handleTouchStart, { passive: false });
   touchTarget.addEventListener('touchmove',  handleTouchMove,  { passive: false });
@@ -58,8 +56,9 @@ function init() {
   } else if (catalogMaze) {
     loadMazeFile(catalogMaze.file);
   } else {
-    // Default: load Easy Maze 1 and show the maze-select menu
-    loadMazeFile('easy1.maze').then(() => showMazeSelectUI());
+    // Default: load Easy Maze 1 synchronously and show the maze-select menu immediately
+    loadDefaultMazeSync();
+    showMazeSelectUI();
   }
 }
 
@@ -67,5 +66,5 @@ function init() {
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
-  init();
+    init();
 }

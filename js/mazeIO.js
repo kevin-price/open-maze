@@ -20,6 +20,46 @@ import { enterPlayMode, showMazeSelectUI, showSaveUI, showLoadUI } from './ui.js
 import { tutorialHandler }            from './tutorial.js';
 import { findSpotInAutosolve }        from './solver.js';
 
+// Embedded default maze XML to allow immediate synchronous loading on startup
+const DEFAULT_MAZE_XML = `<?xml version="1.0" encoding="UTF-8"?>
+<maze>
+  <size><X_GRIDS>20</X_GRIDS><Y_GRIDS>16</Y_GRIDS><DefaultSpacing>25</DefaultSpacing><MobileSpacing>18</MobileSpacing></size>
+  <obstacle><type>begin</type><orient>horizontal</orient><x>2</x><y>15</y></obstacle>
+  <obstacle><type>end</type><orient>horizontal</orient><x>17</x><y>0</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>2</x><y>11</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>9</x><y>11</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>8</x><y>6</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>14</x><y>6</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>13</x><y>7</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>13</x><y>2</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>18</x><y>2</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>17</x><y>3</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>0</x><y>11</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>0</x><y>12</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>0</x><y>5</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>0</x><y>5</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>1</x><y>5</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>3</x><y>6</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>3</x><y>7</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>3</x><y>2</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>3</x><y>2</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>4</x><y>2</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>8</x><y>14</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>8</x><y>13</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>13</x><y>13</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>12</x><y>13</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>12</x><y>15</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>12</x><y>14</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>13</x><y>14</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>6</x><y>2</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>6</x><y>2</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>6</x><y>8</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>6</x><y>7</y></obstacle>
+  <obstacle><type>wall</type><orient>vertical</orient><x>10</x><y>7</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>9</x><y>7</y></obstacle>
+  <obstacle><type>wall</type><orient>horizontal</orient><x>9</x><y>8</y></obstacle>
+</maze>`;
+
 // ─── XML parser ───────────────────────────────────────────────────────────────
 
 /**
@@ -134,6 +174,14 @@ export function processFile(xmlText) {
   // tutorialHandler() then overlays the tutorial panel content on top.
   enterPlayMode(true);
   if (state.tutorial) tutorialHandler();
+}
+
+/**
+ * Loads the default easy maze synchronously using the embedded constant.
+ */
+export function loadDefaultMazeSync() {
+  state.currentFile = 'easy1.maze';
+  processFile(DEFAULT_MAZE_XML);
 }
 
 // ─── Built-in mazes ───────────────────────────────────────────────────────────
