@@ -167,6 +167,8 @@ export function showStoppedUI(directions) {
   const isMobile = isMobileOrTablet();
   const hintTexts = isMobile ? ['D-pad: Swipe directions'] : ['D-pad / Arrow keys', 'B — Backtrack'];
 
+  const isNarrow = window.matchMedia('(max-width: 640px)').matches;
+
   const hintsDiv = document.createElement('div');
   hintsDiv.className = 'key-hints';
   hintsDiv.innerHTML = hintTexts.map(h => `<kbd>${h}</kbd>`).join('');
@@ -176,8 +178,8 @@ export function showStoppedUI(directions) {
   rightGroup.className = 'action-right-group';
   rightGroup.appendChild(buttonsRow);
 
-  if (isMobile) {
-    buttonsRow.appendChild(hintsDiv); // Flows inline with buttons on mobile
+  if (isNarrow) {
+    buttonsRow.appendChild(hintsDiv); // Flows inline with buttons on narrow screens
   } else {
     rightGroup.appendChild(hintsDiv); // Sits underneath on desktop
   }
