@@ -129,8 +129,7 @@ function pageOne() {
     <div class="tutorial-action">
       <h3>📌 Action</h3>
       <p>Press <strong>Begin Maze</strong>, 
-	  the <strong>↑ Up arrow</strong>, or <strong>swipe up</strong> 
-	  to start moving.</p>
+	  the <strong>↑ Up arrow</strong>, or <strong>swipe up</strong> on the maze grid to start moving.</p>
     </div>`);
 }
 
@@ -142,7 +141,7 @@ function pageTwo() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Press <strong>Go Right</strong>, the <strong>→ Right arrow</strong>, or <strong>swipe right</strong> on the maze canvas.
+      <p>Press the <strong>→ Right arrow</strong> or <strong>swipe right</strong> on the maze grid.
       (Choosing Left skips the dead-end demo on the next page.)</p>
     </div>`);
 }
@@ -155,7 +154,7 @@ function pageThree() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Press <strong>Turn Around</strong>, the <strong>← Left arrow</strong>, or <strong>swipe left</strong>.</p>
+      <p>Press the <strong>← Left arrow</strong> or <strong>swipe left</strong> to turn around.</p>
     </div>`);
 }
 
@@ -171,9 +170,9 @@ function pageFour() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Pass through: press <strong>Move Forward</strong>, the
-      <strong>→ Right arrow</strong>, or <strong>swipe right</strong>.</p>
-      <p style="color:var(--color-danger)"><strong>If you've been here before,</strong> press <strong>↑ Up</strong> instead.</p>
+      <p>Pass through: press the
+      <strong>→ Right arrow</strong> or <strong>swipe right</strong>.</p>
+      <p style="color:var(--color-danger)"><strong>If you've been here before,</strong> press or swipe <strong>↑ Up</strong> instead.</p>
     </div>`);
 }
 
@@ -209,7 +208,7 @@ function pageSix() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Turn around: press <strong>Turn Around</strong>, the <strong>↓ Down arrow</strong>, or <strong>swipe down</strong>.</p>
+      <p>Turn around: press the <strong>↓ Down arrow</strong> or <strong>swipe down</strong>.</p>
     </div>`);
 }
 

@@ -115,75 +115,109 @@ export function showStoppedUI(directions) {
   const { spot } = state;
   const dir = spot[2];
 
-  // Map relative options to absolute directions and their corresponding arrows
-  const absoluteDir = {
-    up:    { 
-      right:    { dir: 'right', arrow: '→' }, 
-      left:     { dir: 'left',  arrow: '←' }, 
-      forward:  { dir: 'up',    arrow: '↑' }, 
-      backward: { dir: 'down',  arrow: '↓' } 
-    },
-    down:  { 
-      right:    { dir: 'left',  arrow: '←' }, 
-      left:     { dir: 'right', arrow: '→' }, 
-      forward:  { dir: 'down',  arrow: '↓' }, 
-      backward: { dir: 'up',    arrow: '↑' } 
-    },
-    right: { 
-      right:    { dir: 'down',  arrow: '↓' }, 
-      left:     { dir: 'up',    arrow: '↑' }, 
-      forward:  { dir: 'right', arrow: '→' }, 
-      backward: { dir: 'left',  arrow: '←' } 
-    },
-    left:  { 
-      right:    { dir: 'up',    arrow: '↑' }, 
-      left:     { dir: 'down',  arrow: '↓' }, 
-      forward:  { dir: 'left',  arrow: '←' }, 
-      backward: { dir: 'right', arrow: '→' } 
-    },
+  const absoluteDirMap = {
+    up:    { right: 'right', left: 'left',   forward: 'up',    backward: 'down' },
+    down:  { right: 'left',  left: 'right',  forward: 'down',  backward: 'up'   },
+    right: { right: 'down',  left: 'up',     forward: 'right', backward: 'left' },
+    left:  { right: 'up',    left: 'down',   forward: 'left',  backward: 'right'},
   }[dir] ?? {};
 
-  const capitalization = d => d.charAt(0).toUpperCase() + d.slice(1);
-
-  const items = [createBtn('Backtrack', backTrack)];
-  const hints = ['B — Backtrack'];
+  const activeAbsoluteDirs = [];
+  const actionMap = {};
 
   if (directions.includes('left')) {
-    const info = absoluteDir.left;
-    const lbl = `Go ${capitalization(info.dir)}`;
-    items.push(createBtn(lbl, applyTurnLeft, 'primary'));
-    hints.push(`${info.arrow} — ${lbl}`);
+    const abs = absoluteDirMap.left;
+    activeAbsoluteDirs.push(abs);
+    actionMap[abs] = applyTurnLeft;
   }
   if (directions.includes('right')) {
-    const info = absoluteDir.right;
-    const lbl = `Go ${capitalization(info.dir)}`;
-    items.push(createBtn(lbl, applyTurnRight, 'primary'));
-    hints.push(`${info.arrow} — ${lbl}`);
-  }
-  if (directions.includes('backward')) {
-    const info = absoluteDir.backward;
-    const lbl = 'Turn Around';
-    items.push(createBtn(lbl, applyTurnBackward, 'primary'));
-    hints.push(`${info.arrow} — ${lbl}`);
+    const abs = absoluteDirMap.right;
+    activeAbsoluteDirs.push(abs);
+    actionMap[abs] = applyTurnRight;
   }
   if (directions.includes('forward')) {
-    const info = absoluteDir.forward;
-    const lbl = 'Move Forward';
-    items.push(createBtn(lbl, applyMoveForward, 'primary'));
-    hints.push(`${info.arrow} — ${lbl}`);
+    const abs = absoluteDirMap.forward;
+    activeAbsoluteDirs.push(abs);
+    actionMap[abs] = applyMoveForward;
+  }
+  if (directions.includes('backward')) {
+    const abs = absoluteDirMap.backward;
+    activeAbsoluteDirs.push(abs);
+    actionMap[abs] = applyTurnBackward;
   }
 
+  // 1. Build the D-pad
+  const visualDpad = createVisualDpad(activeAbsoluteDirs, actionMap);
+
+  // 2. Build action buttons row
+  const buttonsRow = document.createElement('div');
+  buttonsRow.className = 'action-buttons-row';
+  buttonsRow.appendChild(createBtn('Backtrack', backTrack));
+
   if (directions.length > 1) {
-    items.push(sep());
-    items.push(createBtn('Restart', startMaze, 'subtle'));
-    items.push(createBtn('Custom Start', () => enterCustomStart(), 'subtle'));
-    items.push(createBtn('Solution', () => {
+    buttonsRow.appendChild(createBtn('Restart', startMaze, 'subtle'));
+    buttonsRow.appendChild(createBtn('Custom Start', () => enterCustomStart(), 'subtle'));
+    buttonsRow.appendChild(createBtn('Solution', () => {
       if (!autoSolve()) _showNoSolutionNotice();
     }, 'subtle'));
   }
 
-  setActionBar(...items);
-  setKeyHints(...hints);
+  // 3. Determine hint text based on screen size
+  //const isMobile = window.matchMedia('(max-width: 640px)').matches;
+  const isMobile = isMobileOrTablet();
+  const hintTexts = isMobile ? ['D-pad: Swipe directions'] : ['D-pad / Arrow keys', 'B — Backtrack'];
+
+  const hintsDiv = document.createElement('div');
+  hintsDiv.className = 'key-hints';
+  hintsDiv.innerHTML = hintTexts.map(h => `<kbd>${h}</kbd>`).join('');
+
+  // 4. Assemble the right group container cleanly
+  const rightGroup = document.createElement('div');
+  rightGroup.className = 'action-right-group';
+  rightGroup.appendChild(buttonsRow);
+
+  if (isMobile) {
+    buttonsRow.appendChild(hintsDiv); // Flows inline with buttons on mobile
+  } else {
+    rightGroup.appendChild(hintsDiv); // Sits underneath on desktop
+  }
+
+  setActionBar(visualDpad, rightGroup);
+  clearKeyHints();
+}
+
+/**
+ * Creates an interactive visual D-pad showing available absolute directions.
+ * @param {string[]} availableAbsoluteDirs e.g. ['up', 'left']
+ * @param {Object} actionMap Maps absolute directions to their click handlers
+ */
+function createVisualDpad(availableAbsoluteDirs, actionMap) {
+  const dpad = document.createElement('div');
+  dpad.className = 'dpad';
+
+  const keys = [
+    { dir: 'up',    symbol: '↑', posClass: 'dpad-up' },
+    { dir: 'left',  symbol: '←', posClass: 'dpad-left' },
+    { dir: 'down',  symbol: '↓', posClass: 'dpad-down' },
+    { dir: 'right', symbol: '→', posClass: 'dpad-right' },
+  ];
+
+  keys.forEach(({ dir, symbol, posClass }) => {
+    const key = document.createElement('div');
+    key.className = `dpad-key ${posClass}`;
+    key.textContent = symbol;
+
+    if (availableAbsoluteDirs.includes(dir)) {
+      key.classList.add('active');
+      key.title = `Go ${dir}`;
+      if (actionMap[dir]) {
+        key.addEventListener('click', actionMap[dir]);
+      }
+    }
+    dpad.appendChild(key);
+  });
+
+  return dpad;
 }
 
 /** Player is paused mid-maze. */

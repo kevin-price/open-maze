@@ -265,13 +265,35 @@ a:hover { text-decoration: underline; }
   padding: 2px 6px;
 }
 
-/* ── Key-hint strip ─────────────────────────────────────────────────────────── */
+/* Container for right-side action buttons and hints stacked vertically */
+.action-right-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.action-buttons-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+
+/* ── Key-hint strip (moved to the side, under right-side buttons) ───────────── */
 .key-hints {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  padding: 4px 16px 6px;
+  padding: 4px 16px 6px; /* Restores default padding for standalone use */
   font-size: .75rem;
+  user-select: none;
+}
+
+/* When nested inside the right action group, remove internal padding */
+.action-right-group .key-hints {
+  padding: 0;
 }
 
 .key-hints:empty { display: none; }
@@ -288,6 +310,57 @@ kbd {
   color: #475569;
   box-shadow: 0 1px 0 #94a3b8;
 }
+
+
+/* ── Dpad ─────────────────────────────────────────────────────────── */
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 32px);
+  grid-template-rows: repeat(2, 32px);
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px 0 0;
+  flex-shrink: 0;
+}
+
+.dpad-key {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  background: #e2e8f0;
+  color: #94a3b8;
+  /* Slightly darker border so the D-pad outline is visible */
+  border: 1px solid #94a3b8;
+  opacity: 0.5;
+  user-select:none;
+}
+
+.dpad-key.active {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border-color: transparent;
+  opacity: 1;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  cursor: pointer;
+  user-select:initial;
+}
+
+.dpad-key.active:hover {
+  background: var(--btn-primary-hover);
+}
+
+/* Grid placement positions */
+.dpad-up    { grid-column: 2; grid-row: 1; }
+.dpad-left  { grid-column: 1; grid-row: 2; }
+.dpad-down  { grid-column: 2; grid-row: 2; }
+.dpad-right { grid-column: 3; grid-row: 2; }
+
 
 /* ── Buttons ────────────────────────────────────────────────────────────────── */
 .btn {
