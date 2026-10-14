@@ -115,34 +115,62 @@ export function showStoppedUI(directions) {
   const { spot } = state;
   const dir = spot[2];
 
-  // Translate logical actions to compass labels relative to the player's view
-  const compassLabel = {
-    up:    { right: 'Go Right', left: 'Go Left' },
-    down:  { right: 'Go Left',  left: 'Go Right' }, // swapped when facing down
-    right: { right: 'Go Down',  left: 'Go Up'   },
-    left:  { right: 'Go Up',    left: 'Go Down'  },
+  // Map relative options to absolute directions and their corresponding arrows
+  const absoluteDir = {
+    up:    { 
+      right:    { dir: 'right', arrow: '→' }, 
+      left:     { dir: 'left',  arrow: '←' }, 
+      forward:  { dir: 'up',    arrow: '↑' }, 
+      backward: { dir: 'down',  arrow: '↓' } 
+    },
+    down:  { 
+      right:    { dir: 'left',  arrow: '←' }, 
+      left:     { dir: 'right', arrow: '→' }, 
+      forward:  { dir: 'down',  arrow: '↓' }, 
+      backward: { dir: 'up',    arrow: '↑' } 
+    },
+    right: { 
+      right:    { dir: 'down',  arrow: '↓' }, 
+      left:     { dir: 'up',    arrow: '↑' }, 
+      forward:  { dir: 'right', arrow: '→' }, 
+      backward: { dir: 'left',  arrow: '←' } 
+    },
+    left:  { 
+      right:    { dir: 'up',    arrow: '↑' }, 
+      left:     { dir: 'down',  arrow: '↓' }, 
+      forward:  { dir: 'left',  arrow: '←' }, 
+      backward: { dir: 'right', arrow: '→' } 
+    },
   }[dir] ?? {};
+
+  const capitalization = d => d.charAt(0).toUpperCase() + d.slice(1);
 
   const items = [createBtn('Backtrack', backTrack)];
   const hints = ['B — Backtrack'];
 
   if (directions.includes('left')) {
-    const lbl = compassLabel.left ?? 'Go Left';
+    const info = absoluteDir.left;
+    const lbl = `Go ${capitalization(info.dir)}`;
     items.push(createBtn(lbl, applyTurnLeft, 'primary'));
-    hints.push(`← — ${lbl}`);
+    hints.push(`${info.arrow} — ${lbl}`);
   }
   if (directions.includes('right')) {
-    const lbl = compassLabel.right ?? 'Go Right';
+    const info = absoluteDir.right;
+    const lbl = `Go ${capitalization(info.dir)}`;
     items.push(createBtn(lbl, applyTurnRight, 'primary'));
-    hints.push(`→ — ${lbl}`);
+    hints.push(`${info.arrow} — ${lbl}`);
   }
   if (directions.includes('backward')) {
-    items.push(createBtn('Turn Around', applyTurnBackward, 'primary'));
-    hints.push('↓ — Turn Around');
+    const info = absoluteDir.backward;
+    const lbl = 'Turn Around';
+    items.push(createBtn(lbl, applyTurnBackward, 'primary'));
+    hints.push(`${info.arrow} — ${lbl}`);
   }
   if (directions.includes('forward')) {
-    items.push(createBtn('Move Forward', applyMoveForward, 'primary'));
-    hints.push('↑ — Move Forward');
+    const info = absoluteDir.forward;
+    const lbl = 'Move Forward';
+    items.push(createBtn(lbl, applyMoveForward, 'primary'));
+    hints.push(`${info.arrow} — ${lbl}`);
   }
 
   if (directions.length > 1) {

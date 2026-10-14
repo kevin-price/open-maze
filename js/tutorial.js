@@ -120,7 +120,7 @@ function pageOne() {
 
 	<img src="assets/end.png" width="50" height="45"
          style="float:left;margin:0 10px 5px 0" alt="Maze end">
-	<p>The <strong>green and gold</strong> marker shows where you end the maze. You can reach it from the top or bottom.</p>
+	<p>The <strong>green and gold</strong> marker shows where you end the maze. You can reach it from either side.</p>
 	
     <p>You can change directions in the maze using <strong>arrow keys</strong> or <strong>swipe gestures</strong> on the maze grid. 
 	On touch devices, tap the maze to pause while moving, 
