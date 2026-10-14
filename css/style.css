@@ -555,6 +555,11 @@ kbd {
   color: #1e40af;
 }
 
+#tutorial-content {
+  max-width: 510px;
+  margin: 0 auto;
+}
+
 .tutorial-skip {
   display: block;
   margin-bottom: 12px;
@@ -589,6 +594,13 @@ kbd {
     max-height: 100%;   /* constrained by maze-wrap's flex height, not a hardcoded calc */
   }
 
+  .action-bar { gap: 4px; padding: 6px 10px; }
+  .btn { font-size: .8rem; padding: 4px 10px; }
+  
+  .action-group {    /* the Draw: buttons in the Maze Creator */
+    flex-wrap: wrap; /* Allow internal wrapping only on tiny mobile screens */
+  }
+
   .tutorial-panel {
     flex: none;
     width: 100%;
@@ -615,13 +627,6 @@ kbd {
   [data-tutorial] .canvas-area {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-  }
-
-  .action-bar { gap: 4px; padding: 6px 10px; }
-  .btn { font-size: .8rem; padding: 4px 10px; }
-  
-  .action-group {    /* the Draw: buttons in the Maze Creator */
-    flex-wrap: wrap; /* Allow internal wrapping only on tiny mobile screens */
   }
 }
 

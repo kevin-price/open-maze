@@ -112,17 +112,23 @@ function pageOne() {
     <h2>Welcome to Ricochet Maze!</h2>
     <p>This maze works differently from most. Instead of following a corridor,
 	you travel in a straight line along the grid until you hit a 
-	<strong>barrier</strong>. The barrier tells you which turns are available. 
-	The <strong>green</strong> markers show where you start and end the maze.</p>
+	<strong>barrier</strong>. The barrier tells you which turns are available.</p> 
+	
+	<img src="assets/beginning.png" width="50" height="45"
+         style="float:left;margin:0 10px 5px 0" alt="Maze beginning">
+	<p>The <strong>dark green</strong> marker is the beginning; the circle marks your location.</p>
 
+	<img src="assets/end.png" width="50" height="45"
+         style="float:left;margin:0 10px 5px 0" alt="Maze end">
+	<p>The <strong>green and gold</strong> marker shows where you end the maze. You can reach it from the top or bottom.</p>
+	
     <p>You can change directions in the maze using <strong>arrow keys</strong> or <strong>swipe gestures</strong> on the maze grid. 
 	On touch devices, tap the maze to pause while moving, 
 	and pinch to zoom in or out.</p>
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Click <strong>Highlight start & end markers</strong> in the nav 
-	  to show the start and end locations, then press <strong>Begin Maze</strong>, 
+      <p>Press <strong>Begin Maze</strong>, 
 	  the <strong>↑ Up arrow</strong>, or <strong>swipe up</strong> 
 	  to start moving.</p>
     </div>`);
@@ -155,7 +161,7 @@ function pageThree() {
 
 function pageFour() {
   append(`
-    <img src="assets/07-forced-turn.png" width="65" height="65"
+    <img src="assets/forced-turn.png" width="65" height="65"
          style="float:left;margin:0 10px 5px 0" alt="Forced turn diagram">
     <h2>Forced Turns & Permeable Walls</h2>
     <p>You just passed through two <strong>forced turns</strong> — spots with only
