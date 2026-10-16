@@ -609,6 +609,32 @@ function _showNoSolutionNotice() {
   setTimeout(() => notice.remove(), 4000);
 }
 
+// ─── Trackpad Pinch-to-Zoom Handler ──────────────────────────────────────────
+
+/**
+ * Handles trackpad wheel / pinch-to-zoom events on the canvas wrapper.
+ * @param {WheelEvent} e
+ */
+export function handleWheelZoom(e) {
+  // Check if it's a pinch-to-zoom gesture (Ctrl + wheel, standard on trackpads)
+  if (!e.ctrlKey) return;
+
+  e.preventDefault();
+
+  // Multiplicative scaling factor makes zooming smooth and proportional
+  // e.deltaY is negative when pinching out (zoom in) and positive when pinching in (zoom out)
+  const scaleFactor = 1 - e.deltaY * 0.007;  //adjusting the 0.007 changes the zoom speed
+  const newInterval = Math.round(state.interval * scaleFactor);
+  const clamped     = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, newInterval));
+
+  if (clamped !== state.interval) {
+    state.interval = clamped;
+    drawGrid();
+    drawCurrentPosition();
+    scrollToPlayer();
+  }
+}
+
 // ─── Zoom ────────────────────────────────────────────────────────────────────
 
 export function zoomIn() {

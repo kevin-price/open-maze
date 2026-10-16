@@ -14,6 +14,7 @@ import {
   handleTouchStart,
   handleTouchMove,
   handleTouchEnd,
+  handleWheelZoom,
   showMazeSelectUI,
   MAZE_CATALOG,
 } from './ui.js';
@@ -42,6 +43,9 @@ function init() {
   touchTarget.addEventListener('touchstart', handleTouchStart, { passive: false });
   touchTarget.addEventListener('touchmove',  handleTouchMove,  { passive: false });
   touchTarget.addEventListener('touchend',   handleTouchEnd,   { passive: false });
+
+  // Trackpad pinch-to-zoom (Wheel event with ctrlKey)
+  touchTarget.addEventListener('wheel', handleWheelZoom, { passive: false });
 
   // Read URL query parameters
   const params   = new URLSearchParams(window.location.search);
