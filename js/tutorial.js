@@ -136,8 +136,8 @@ function pageOne() {
 function pageTwo() {
   append(`
     <h2>Your First Wall</h2>
-    <p>You've hit a regular <strong>red wall</strong>. Coming from below, you can
-    turn left or right — the wall blocks straight ahead.</p>
+    <p>You've hit a regular <strong>red wall</strong>. The menu tells you which directions you can move. 
+	Coming from below, you can turn left or right — the wall blocks straight ahead.</p>
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
@@ -226,7 +226,7 @@ function pageSeven() {
 
     <div class="tutorial-action">
       <h3>📌 Action</h3>
-      <p>Press <strong>Skip / End Tutorial</strong> above. Sample 1 will load
+      <p>Press <strong>Skip / End Tutorial</strong> above. The first maze will load
       automatically so you can play right away.</p>
     </div>`);
 }
