@@ -61,10 +61,10 @@ function init() {
     loadMazeFile(catalogMaze.file);
   } else {
     // Default: load on the next animation frame to prevent any layout jank
-	// Load Easy Maze 1 synchronously and show the maze-select menu immediately
+	// Load Easy Maze 1 synchronously
     requestAnimationFrame(() => {
       loadDefaultMazeSync();
-      showMazeSelectUI();
+      //showMazeSelectUI();  // (don't) show the maze-select menu immediately
     });
   }
 }
