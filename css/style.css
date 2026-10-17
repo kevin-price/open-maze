@@ -708,3 +708,9 @@ kbd {
   outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
+
+@media (max-width: 380px) {
+  .action-select {
+    width: 113px; 
+  }
+}

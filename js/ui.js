@@ -306,7 +306,10 @@ function createMazeSelect(groupLabel, mazes) {
 
   const placeholder = document.createElement('option');
   placeholder.value       = '';
-  placeholder.textContent = `── ${groupLabel} ──`;
+
+  if (window.matchMedia('(max-width: 380px)').matches)
+       { placeholder.textContent = `${groupLabel}`;       }
+  else { placeholder.textContent = `── ${groupLabel} ──`; }
   placeholder.disabled    = true;
   placeholder.selected    = true;
   sel.appendChild(placeholder);
